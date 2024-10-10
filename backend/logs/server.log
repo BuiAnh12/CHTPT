@@ -1,6 +1,0 @@
-2024-10-07 17:50:43 [INFO]: This will be logged to the console and the file.
-2024-10-07 17:50:44 [INFO]: Data updated at flights/flight_id_12345/seats/seat_1A
-2024-10-07 17:50:44 [INFO]: flights/flight_id_12345/seats/seat_1A
-2024-10-07 17:50:44 [INFO]: Schedule set for 10s
-2024-10-07 17:50:54 [INFO]: Seat seat_1A on flight flight_id_12345 has been reset to free due to timeout.
-2024-10-07 17:50:54 [INFO]: Canceled reset for seat seat_1A on flight flight_id_12345.

@@ -1,6 +1,6 @@
 // pages/api/flight/[flightid]/seat/register/[seatid].ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { updateData, readData } from '../../../../../../util/firebase';
+import { registerSeat, readData } from '../../../../../../util/firebase';
 import { scheduleSeatReset, getTimeOut } from '../../../../../../util/schedule';
 import logger from '../../../../../../util/logger';
 
@@ -30,12 +30,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           timestamp: registerTime,
         }
       };
-      await updateData(seatPath, updatedSeatData);
-      logger.info(`flights/${flightid}/seats/${seatid}`)
+      await registerSeat(seatPath, updatedSeatData);
+      logger.info(`flights/${flightid}/seats/${seatid} for user ${userId}`)
       scheduleSeatReset(flightid as string, seatid as string, registerTime)
       logger.info("Schedule set for " + getTimeOut() + "s")
       return res.status(200).json({ message: 'Seat registered successfully', seat: updatedSeatData });
     } catch (error) {
+      if (error.message == "Transaction aborted, seat is not free") {
+        return res.status(409).json({ error: 'Conflict', detail: error.message });
+      }
       return res.status(500).json({ error: 'Internal server error', detail: error.message });
     }
   } else {

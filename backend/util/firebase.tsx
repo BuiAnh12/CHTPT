@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, set, get, update, remove } from 'firebase/database';
+import { getDatabase, ref, set, get, update, remove, runTransaction } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -66,6 +66,32 @@ const updateData = async (path: string, data: any): Promise<void> => {
   }
 };
 
+const registerSeat = async (path: string, data: any): Promise<void> => {
+  const dbRef = ref(database, path);
+
+  try {
+    const result = await runTransaction(dbRef, (currentData) => {
+      if (currentData && currentData.status !== 'free') {
+        return; 
+      }
+      return {
+        ...currentData,
+        ...data,
+      };
+    });
+
+    if (result.committed) {
+      console.log(`Data updated at ${path} using transaction`);
+    } else {
+      throw new Error(`Transaction aborted, seat is not free`);
+    }
+  } catch (error) {
+    throw new Error(`Transaction aborted, seat is not free`);
+  }
+};
+
+
+
 // Function to delete data
 const deleteData = async (path: string): Promise<void> => {
   const dbRef = ref(database, path);
@@ -80,4 +106,4 @@ const deleteData = async (path: string): Promise<void> => {
 };
 
 
-export { app, auth, database, writeData, deleteData, updateData, readData };
+export { app, auth, database, writeData, deleteData, updateData, readData, registerSeat };
