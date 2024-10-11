@@ -15,7 +15,6 @@ export default function Home() {
       path: "/api/socket",
     });
 
-
     socket.on("connect", () => {
       console.log("Connected to server for logs.");
     });
@@ -51,15 +50,15 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center">
-      <div className="w-full max-w-4xl p-5">
+    <div className='bg-gray-100 min-h-screen flex flex-col items-center'>
+      <div className='w-full max-w-4xl p-5'>
         {loginStage ? (
           <>
             {/* Real-time Logs Section */}
-            <div className="my-5 bg-white p-4 rounded shadow-md">
-              <h2 className="text-xl font-bold mb-2">Server Logs (Real-time)</h2>
+            <div className='my-5 bg-white p-4 rounded shadow-md'>
+              <h2 className='text-xl font-bold mb-2'>Server Logs (Real-time)</h2>
               <textarea
-                className="bg-gray-900 text-white p-2 rounded h-48 w-full resize-none overflow-auto"
+                className='bg-gray-900 text-white p-2 rounded h-48 w-full resize-none overflow-auto'
                 value={logs} // Join logs with line breaks
                 readOnly // Make it read-only
               />
