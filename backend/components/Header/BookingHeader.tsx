@@ -29,7 +29,7 @@ const BookingHeader = ({ step }) => {
           <div className='w-[95%] h-[50px] flex items-center justify-between p-3'>
             <div className='flex items-center gap-[20px]'>
               <Link
-                href='/'
+                href='/home'
                 className={`text-[25px] leading-none font-Poppins font-bold drop-shadow-[1px_1px_1px_#000] text-[#007390] pb-[6px]`}
               >
                 PTIT Airlines
