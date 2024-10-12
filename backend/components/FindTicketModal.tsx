@@ -1,11 +1,17 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { IoSwapHorizontal } from "react-icons/io5";
 
 type Props = {};
 
 const FindTicketModal = (props: Props) => {
+  const [fromCity, setFromCity] = useState("Hà Nội (HAN), Việt Nam");
+  const [toCity, setToCity] = useState("");
+  const [departureDate, setDepartureDate] = useState("");
+  const [returnDate, setReturnDate] = useState("");
+  const [passengerCount, setPassengerCount] = useState("");
+
   return (
     <>
       <div className='flex gap-2'>
@@ -24,12 +30,13 @@ const FindTicketModal = (props: Props) => {
         <div className='w-[59%] flex items-center gap-2'>
           <div className='relative w-[47%]'>
             <input
-              id='city-from-roundtrip'
+              id='city-from'
               type='text'
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
-              value='Hà Nội (HAN), Việt Nam'
+              value={fromCity}
+              onChange={(e) => setFromCity(e.target.value)}
             />
-            <label htmlFor='city-from-roundtrip' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
+            <label htmlFor='city-from' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
               Từ
             </label>
             <FaSort className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' />
@@ -39,11 +46,13 @@ const FindTicketModal = (props: Props) => {
 
           <div className='relative w-[47%]'>
             <input
-              id='city-to-roundtrip'
+              id='city-to'
               type='text'
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
+              value={toCity}
+              onChange={(e) => setToCity(e.target.value)}
             />
-            <label htmlFor='city-to-roundtrip' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
+            <label htmlFor='city-to' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
               Đến
             </label>
             <FaSort className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' />
@@ -55,18 +64,18 @@ const FindTicketModal = (props: Props) => {
             <input
               type='date'
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[10px] pt-[15px] pb-[6px] outline-none w-full'
-              value='Ngày đi'
+              value={departureDate}
+              onChange={(e) => setDepartureDate(e.target.value)}
             />
-            {/* <FaRegCalendarAlt className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' /> */}
           </div>
 
           <div className='relative w-[48%] mr-[10px]'>
             <input
               type='date'
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[10px] pt-[15px] pb-[6px] outline-none w-full'
-              value='Ngày về'
+              value={returnDate}
+              onChange={(e) => setReturnDate(e.target.value)}
             />
-            {/* <FaRegCalendarAlt className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' /> */}
           </div>
         </div>
       </div>
@@ -74,11 +83,13 @@ const FindTicketModal = (props: Props) => {
       <div className='flex justify-between mt-[20px] mb-[15px]'>
         <div className='relative w-[28%]'>
           <input
-            id='city-from-roundtrip'
-            type='text'
+            id='passenger-count'
+            type='number'
             className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
+            value={passengerCount}
+            onChange={(e) => setPassengerCount(e.target.value)}
           />
-          <label htmlFor='city-from-roundtrip' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
+          <label htmlFor='passenger-count' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
             Hành khách
           </label>
           <FaSort className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' />

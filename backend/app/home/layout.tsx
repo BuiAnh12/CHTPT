@@ -1,16 +1,22 @@
 "use client";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header/Header";
+import dynamic from "next/dynamic";
+
+// Dynamically import Header and Footer components with no SSR
+const Header = dynamic(() => import("../../components/Header/Header"), {
+  ssr: false,
+});
+
+const Footer = dynamic(() => import("../../components/Footer"), {
+  ssr: false,
+});
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang='en'>
-      <body>
-        <Header />
-        <div>{children}</div>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <Header />
+      <div>{children}</div>
+      <Footer />
+    </>
   );
 };
 

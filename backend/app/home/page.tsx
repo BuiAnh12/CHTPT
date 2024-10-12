@@ -6,7 +6,77 @@ import { IoAirplane } from "react-icons/io5";
 import { VscNotebook } from "react-icons/vsc";
 import { MdAirplaneTicket } from "react-icons/md";
 import FindTicketModal from "../../components/FindTicketModal";
-import Slider from "../../components/Slider";
+import Slider from "../../components/NewsSlider";
+
+const popularFlights = [
+  {
+    img: "https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx",
+    from: "TP. Hồ Chí Minh",
+    to: "Hà Nội",
+    date: "20/12/2024",
+    price: "1.540.000",
+    type: "Một chiều / Phổ thông",
+  },
+  {
+    img: "https://assets.airtrfx.com/cdn-cgi/image/height=500,width=500,quality=80,fit=crop,format=auto,opt=true/https://media.jtdwjcwq6f4wp4ce.com/vn/cities/Ho-Chi-Minh-City-SGN.jpg",
+    from: "Hà Nội",
+    to: "TP. Hồ Chí Minh",
+    date: "29/10/2024",
+    price: "1.540.000",
+    type: "Một chiều / Phổ thông",
+    amount: "2/8",
+  },
+  {
+    img: "https://assets.airtrfx.com/media-em/vn/62fa641d28f87_Da_Nang.jpg?height=500&width=500&quality=80&fit=crop&format=auto&opt=true",
+    from: "TP. Hồ Chí Minh",
+    to: "Đà Nẵng",
+    date: "16/12/2024",
+    price: "828.000",
+    type: "Một chiều / Phổ thông",
+    amount: "2/8",
+  },
+  {
+    img: "https://assets.airtrfx.com/media-em/vn/62fa641d28f87_Da_Nang.jpg?height=500&width=500&quality=80&fit=crop&format=auto&opt=true",
+    from: "Hà Nội",
+    to: "Đà Nẵng",
+    date: "11/12/2024",
+    price: "860.000",
+    type: "Một chiều / Phổ thông",
+    amount: "4/8",
+  },
+  {
+    img: "https://assets.airtrfx.com/cdn-cgi/image/height=500,width=500,quality=80,fit=crop,format=auto,opt=true/https://media.jtdwjcwq6f4wp4ce.com/vn/cities/Ho-Chi-Minh-City-SGN.jpg",
+    from: "Đà Nẵng",
+    to: "TP. Hồ Chí Minh",
+    date: "20/12/2024",
+    price: "1.162.000",
+    type: "Một chiều / Phổ thông",
+  },
+  {
+    img: "https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx",
+    from: "Đà Nẵng",
+    to: "Hà Nội",
+    date: "09/12/2024",
+    price: "860.000",
+    type: "Một chiều / Phổ thông",
+  },
+  {
+    img: "https://assets.airtrfx.com/cdn-cgi/image/height=500,width=500,quality=80,fit=crop,format=auto,opt=true/https://media.jtdwjcwq6f4wp4ce.com/vn/cities/Vinh-VII.jpg",
+    from: "TP. Hồ Chí Minh",
+    to: "Vinh",
+    date: "25/11/2024",
+    price: "914.000",
+    type: "Một chiều / Phổ thông",
+  },
+  {
+    img: "https://assets.airtrfx.com/media-em/vn/62fa63d86c890_Hai_Phong.jpg?height=500&width=500&quality=80&fit=crop&format=auto&opt=true",
+    from: "TP. Hồ Chí Minh",
+    to: "Hải Phòng",
+    date: "18/12/2024",
+    price: "914.000",
+    type: "Một chiều / Phổ thông",
+  },
+];
 
 type Props = {};
 
@@ -19,7 +89,7 @@ const page = (props: Props) => {
 
       <div className='!mt-[-52px] min-h-[120px]'>
         <div className='pt-[11px] max-w-[850px] relative z-10 m-auto'>
-          <Tab.Container activeKey={key} onSelect={(k) => setKey(k)}>
+          <Tab.Container activeKey={key} onSelect={(k) => setKey(k ?? "")}>
             <Row>
               <Col sm={12}>
                 <Nav
@@ -30,7 +100,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-1'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
+                      className='!flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <IoAirplane />
                       <span>MUA VÉ</span>
@@ -39,7 +109,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-2'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
+                      className='!flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <VscNotebook />
                       <span>QUẢN LÝ ĐẶT CHỖ</span>
@@ -48,7 +118,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-3'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
+                      className='!flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <MdAirplaneTicket />
                       <span>LÀM THỦ TỤC</span>
@@ -259,200 +329,28 @@ const page = (props: Props) => {
         </h2>
 
         <div className='flex flex-row items-center mb-[20px] flex-wrap gap-[10px]'>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
+          {popularFlights.slice(0, 8).map((popular, index) => (
+            <div className='relative h-[400px] cursor-pointer basis-[24%]' key={index}>
+              <img src={popular.img} className='object-cover h-full w-full' alt='' />
+              <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
+                <div className='flex flex-col'>
+                  <span className='text-[18px] text-[#fff] font-semibold'>{popular.from} đến</span>
+                  <span className='text-[18px] text-[#fff] font-semibold'>{popular.to}</span>
+                  <span className='text-[14px] text-[#fff] font-semibold'>{popular.date}</span>
+                </div>
+                <div className='flex flex-col items-end mt-[30px]'>
+                  <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
+                  <span className='text-[18px] text-[#fff] font-semibold'>{popular.price} VND*</span>
+                  <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
+                  <span className='text-[11px] text-[#fff] font-semibold'>{popular.type}</span>
+                </div>
               </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
+
+              <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
+                {index + 1}/8
+              </span>
             </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
-          <div className='relative h-[400px] cursor-pointer basis-[24%]'>
-            <img
-              src='https://www.vietnamairlines.com/~/media/1BA7C4D53BE94C50A847FFF2230FBA70.ashx'
-              className='object-cover h-full w-full'
-              alt=''
-            />
-            <div className='absolute bottom-[0px] px-[15px] pt-[10px] pb-[10px] w-full z-2 bg-[#076981c7]'>
-              <div className='flex flex-col'>
-                <span className='text-[18px] text-[#fff] font-semibold'>TP. Hồ Chí Minh đến</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>Hà Nội</span>
-                <span className='text-[14px] text-[#fff] font-semibold'>20/12/2024</span>
-              </div>
-              <div className='flex flex-col items-end mt-[30px]'>
-                <span className='text-[11px] text-[#fff] font-semibold'>Từ</span>
-                <span className='text-[18px] text-[#fff] font-semibold'>1.540.000 VND*</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Đã xem: 11 phút trước</span>
-                <span className='text-[11px] text-[#fff] font-semibold'>Một chiều / Phổ thông</span>
-              </div>
-            </div>
-
-            <span className='absolute top-[10px] right-[10px] py-[1px] px-[10px] bg-[#0000009d] text-[#fff] text-[12px] rounded-[10px]'>
-              1/8
-            </span>
-          </div>
+          ))}
         </div>
 
         <div className='flex items-center justify-center'>
@@ -465,14 +363,14 @@ const page = (props: Props) => {
       <div className='w-[75%] m-auto'>
         <h2 className='p-[5px] border-l-[12px] border-[#1B95B8] text-[38px] mt-[20px] mb-[10px]'>KHÁM PHÁ ĐIỂM ĐẾN</h2>
 
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[2px] mb-[20px]'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[5px] mb-[20px]'>
           <div className='relative h-[495px] group cursor-pointer'>
             <img
               src='https://www.vietnamairlines.com/vn/vi/~/media/1B2961B388074C069FB6C065C63F2FBC.ashx'
               className='object-cover h-full w-full'
               alt=''
             />
-            <div className='absolute bottom-[40px] group-hover:bottom-[70px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
+            <div className='absolute bottom-[20px] group-hover:bottom-[50px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
               <p className='text-[22px] text-[#fff] mb-[5px]'>Tokyo – Thủ đô của hiện đại và truyền thống</p>
               <button className='text-[13px] border-[1px] border-[#fff] w-[150px] h-[40px] text-center bg-[#ffffff29] text-[#fff] rounded-[5px] cursor-pointer font-semibold'>
                 KHÁM PHÁ
@@ -493,7 +391,7 @@ const page = (props: Props) => {
               className='object-cover h-full w-full'
               alt=''
             />
-            <div className='absolute bottom-[40px] group-hover:bottom-[70px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
+            <div className='absolute bottom-[20px] group-hover:bottom-[50px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
               <p className='text-[22px] text-[#fff] mb-[5px]'>Phú Quốc – Hòn ngọc quý</p>
               <button className='text-[13px] border-[1px] border-[#fff] w-[150px] h-[40px] text-center bg-[#ffffff29] text-[#fff] rounded-[5px] cursor-pointer font-semibold'>
                 KHÁM PHÁ
@@ -518,7 +416,7 @@ const page = (props: Props) => {
               <div className='absolute bottom-[20px] group-hover:bottom-[50px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
                 <p className='text-[22px] text-[#fff] mb-[5px]'>Bangkok – Thiên đường ăn chơi và mua sắm Đông Nam Á</p>
                 <button className='text-[13px] border-[1px] border-[#fff] w-[150px] h-[40px] text-center bg-[#ffffff29] text-[#fff] rounded-[5px] cursor-pointer font-semibold'>
-                  DISCOVER
+                  KHÁM PHÁ
                 </button>
               </div>
               <div
@@ -539,7 +437,7 @@ const page = (props: Props) => {
               <div className='absolute bottom-[20px] group-hover:bottom-[50px] transition-all duration-300 ease-in-out px-[15px] pt-[20px] pb-[15px] w-full z-2'>
                 <p className='text-[22px] text-[#fff] mb-[5px]'>Đà Lạt – Một Paris thu nhỏ</p>
                 <button className='text-[13px] border-[1px] border-[#fff] w-[150px] h-[40px] text-center bg-[#ffffff29] text-[#fff] rounded-[5px] cursor-pointer font-semibold'>
-                  DISCOVER
+                  KHÁM PHÁ
                 </button>
               </div>
               <div
@@ -561,11 +459,11 @@ const page = (props: Props) => {
       </div>
 
       <div className='w-[75%] m-auto'>
-        <div className='pb-[20px] mb-[20px] mt-[35px] text-center relative overflow-hidden'>
+        <div className='mt-[35px] text-center relative overflow-hidden'>
           <h2 className='relative font-normal text-[35px] text-[#1f1f1f] px-[10px] text-center bg-[#fff] w-fit inline-block z-10'>
             Thông tin nổi bật
           </h2>
-          <hr className='absolute top-1/2 left-0 w-full transform -translate-y-[8px] p-0 h-0 border-[#303030] border-t-[1px]' />
+          <hr className='absolute top-[25%] left-0 w-full transform -translate-y-[8px] p-0 h-0 border-[#303030] border-t-[1px]' />
         </div>
         <Slider />
       </div>

@@ -24,6 +24,13 @@ p {
   margin-bottom: 0 !important;
 }
 
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover {
+  border: none !important;
+  background-color: #166987 !important;
+}
+
+/* CUSTOM SWIPER */
 .swiper {
   width: 100%;
   height: 100%;
