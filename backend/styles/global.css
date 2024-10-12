@@ -8,7 +8,20 @@ body {
   box-sizing: border-box;
   overflow-x: hidden;
   background-color: #ffffff;
+  outline: none;
   transition: all 0.2 ease-in-out;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+ul {
+  padding-left: 0px !important;
+}
+
+p {
+  margin-bottom: 0 !important;
 }
 
 .swiper {
