@@ -85,7 +85,7 @@ const FindTicketModal = (props: Props) => {
         </div>
 
         <Link
-          href='/booking'
+          href='/booking/flight'
           className='w-[160px] h-[40px] rounded-[4px] text-[#000] bg-[#e6b441] hover:bg-[#fff] border-[2px] border-[#e6b441] flex items-center justify-center font-semibold'
         >
           TÌM CHUYẾN BAY

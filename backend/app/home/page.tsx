@@ -30,7 +30,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-1'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] hover:bg-[#166987] active:bg-[#166987] !rounded-none hover:border-none'
+                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <IoAirplane />
                       <span>MUA VÉ</span>
@@ -39,7 +39,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-2'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] hover:bg-[#166987] active:bg-[#166987] !rounded-none hover:border-none'
+                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <VscNotebook />
                       <span>QUẢN LÝ ĐẶT CHỖ</span>
@@ -48,7 +48,7 @@ const page = (props: Props) => {
                   <Nav.Item className='flex-grow-1'>
                     <Nav.Link
                       eventKey='link-3'
-                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] hover:bg-[#166987] active:bg-[#166987] !rounded-none hover:border-none'
+                      className='flex items-center justify-center gap-2 text-white !bg-[#058cb373] !hover:bg-[#166987] active:bg-[#166987] !rounded-none !hover:border-none'
                     >
                       <MdAirplaneTicket />
                       <span>LÀM THỦ TỤC</span>
