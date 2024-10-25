@@ -4,9 +4,9 @@ import fs from 'fs';
 
 const logger = createLogger({
     format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.timestamp({ format: 'HH:mm:ss' }),
         format.printf(({ timestamp, level, message }) => {
-          return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+            return `[${timestamp}][${level.toUpperCase()}]: ${message}`;
         })
     ),
     defaultMeta: { service: 'user-service' },
@@ -30,8 +30,4 @@ console.log = (...args) => {
     logger.info(args.join(' ')); // Use the Winston logger to log
 };
 
-// Example usage
-console.log('This will be logged to the console and the file.');
-
 export default logger;
-

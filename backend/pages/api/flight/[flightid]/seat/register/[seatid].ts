@@ -31,14 +31,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       };
       await registerSeat(seatPath, updatedSeatData);
-      logger.info(`flights/${flightid}/seats/${seatid} for user ${userId}`)
       scheduleSeatReset(flightid as string, seatid as string, registerTime)
-      logger.info("Schedule set for " + getTimeOut() + "s")
+      logger.info("[Task scheduling] _ Schedule set for " + getTimeOut() + "s")
+      logger.info(`[200] - [${userId}] Seat registered successfully`)
       return res.status(200).json({ message: 'Seat registered successfully', seat: updatedSeatData });
     } catch (error) {
       if (error.message == "Transaction aborted, seat is not free") {
+        logger.info(`[409] - [${userId}] Seat is not free -> cancel this user`)
         return res.status(409).json({ error: 'Conflict', detail: error.message });
       }
+      logger.info(`[500] - [${userId}] Internal server error`)
       return res.status(500).json({ error: 'Internal server error', detail: error.message });
     }
   } else {

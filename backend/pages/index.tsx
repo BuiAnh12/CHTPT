@@ -54,24 +54,34 @@ export default function Home() {
     console.log(logEntries)
     const parsedEvents = logEntries.map((logEntry) => {
       const match = logEntry.match(regex);
-      
+
       if (match) {
         let [_, time, type, message] = match;
-    
+
         // Adjust type if the message contains specific patterns
         if (message.includes("[Task scheduling]")) {
           type = "SCHEDULE"; // Change type to SCHEDULE if applicable
         }
-    
+        if (message.includes("[Task scheduling]")) {
+          type = "SCHEDULE"; // Change type to SCHEDULE if applicable
+        }
+        // Check for API event specific message pattern
+        if (message.includes("[200]")) {
+          type = "SUCCESS"; // Change type to API for specific messages
+        }
+        if (message.includes("[409]")) {
+          type = "ABORT"; // Change type to API for specific messages
+        }
+
         // Clean up the message by removing ANSI escape codes
         const cleanedMessage = message.replace(/\u001b\[[0-9;]*m/g, "");
-    
+
         return { time, type, message: cleanedMessage.trim() }; // Remove leading/trailing whitespace
       }
-    
+
       return null; // Return null for non-matching entries
     }).filter(Boolean); // Remove null entries
-    
+
     console.log(parsedEvents);
     // Update event list state
     setEventList(parsedEvents);

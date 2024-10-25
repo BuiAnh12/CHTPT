@@ -58,7 +58,6 @@ const updateData = async (path: string, data: any): Promise<void> => {
   const dbRef = ref(database, path);
   try {
     const result = await update(dbRef, data);
-    console.log(`Data updated at ${path}`);
     return result
   } catch (error) {
     console.error(`Error updating data at ${path}: `, error);
@@ -81,7 +80,6 @@ const registerSeat = async (path: string, data: any): Promise<void> => {
     });
 
     if (result.committed) {
-      console.log(`Data updated at ${path} using transaction`);
     } else {
       throw new Error(`Transaction aborted, seat is not free`);
     }
@@ -97,7 +95,6 @@ const deleteData = async (path: string): Promise<void> => {
   const dbRef = ref(database, path);
   try {
     const result = await remove(dbRef);
-    console.log(`Data deleted at ${path}`);
     return result
   } catch (error) {
     console.error(`Error deleting data at ${path}: `, error);
