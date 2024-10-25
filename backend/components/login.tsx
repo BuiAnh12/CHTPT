@@ -17,6 +17,8 @@ function Login({ loginStage, onLoginSuccess }) {
       setIsLoggedIn(true);
       if (onLoginSuccess) {
         onLoginSuccess(result);
+        console.log(result)
+        localStorage.setItem('user_id', result.user.uid) // save cached user
       }
       console.log(result);
     } catch (error) {
