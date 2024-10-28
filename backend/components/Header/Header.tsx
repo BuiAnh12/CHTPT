@@ -7,14 +7,22 @@ import { FaArrowRightFromBracket } from "react-icons/fa6";
 import { RiUserLine } from "react-icons/ri";
 import Login from "../Auth/Login";
 import SignUp from "../Auth/SignUp";
+import { useUser } from "../../contexts/UserContext";
+import avatar from "../../public/defaultAvatar.png";
+import Image from "next/image";
 
 type Props = {};
 
 const Header = (props: Props) => {
-  const [user, setUser] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
+
+  const { user, setUser } = useUser();
+
+  const handleLogout = () => {
+    setUser(null)
+  }
 
   return (
     <>
@@ -36,10 +44,12 @@ const Header = (props: Props) => {
               {user ? (
                 <div className='flex items-center gap-3'>
                   <div className='relative ml-4'>
-                    <img
-                      src={"../../public/defaultAvatar.png"}
+                    <Image
+                      src={avatar}
                       alt='avatar'
-                      className='w-[30px] h-[30px] object-cover rounded-full cursor-pointer'
+                      width={30}
+  height={30}
+                      className='object-cover rounded-full cursor-pointer'
                       onClick={() => setOpenModal(!openModal)}
                     />
 
@@ -61,7 +71,7 @@ const Header = (props: Props) => {
                             <RiUserLine />
                             <span> Tài khoản của tôi</span>
                           </Link>
-                          <div className='text-[16px] font-Poppins font-medium text-[#e0e0e0] drop-shadow-[1px_1px_1px_#000] hover:text-[#005a8c] hover:border-l-[3px] hover:border-[#005a8c] p-2 flex items-center gap-2 hover:bg-[#96969633] cursor-pointer'>
+                          <div className='text-[16px] font-Poppins font-medium text-[#e0e0e0] drop-shadow-[1px_1px_1px_#000] hover:text-[#005a8c] hover:border-l-[3px] hover:border-[#005a8c] p-2 flex items-center gap-2 hover:bg-[#96969633] cursor-pointer' onClick={() => handleLogout()}>
                             <FaArrowRightFromBracket />
                             <span>Đăng xuất</span>
                           </div>

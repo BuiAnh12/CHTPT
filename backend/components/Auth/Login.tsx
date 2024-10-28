@@ -6,6 +6,9 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5";
 import { styles } from "../../styles/styles";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../util/firebase";
+import { useUser } from "../../contexts/UserContext";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Please enter your email!"),
@@ -16,11 +19,37 @@ type Props = {};
 
 const Login = ({ setOpenLogin, setOpenSignUp }) => {
   const [show, setShow] = useState(false);
+  const [loginStage, setLoginStage] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(loginStage);
+
+  const { setUser } = useUser();
+
+  useEffect(() => {
+    setIsLoggedIn(loginStage);
+  }, [loginStage]);
+
+  const handleLogin = async ({ email, password }) => {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      if (result) {
+        console.log(result);
+        setUser(result);
+        localStorage.setItem("user_id", result.user.uid); // save cached user
+        toast.success("Đăng nhập thành công");
+        setOpenLogin(false);
+      }
+      console.log(result);
+    } catch (error) {
+      console.error("Error logging in", error);
+    }
+  };
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
-    onSubmit: async ({ email, password }) => {},
+    onSubmit: async ({ email, password }) => {
+      handleLogin({ email, password });
+    },
   });
 
   const { errors, touched, values, handleChange, handleSubmit } = formik;

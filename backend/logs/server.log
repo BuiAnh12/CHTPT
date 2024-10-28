@@ -1,0 +1,9 @@
+2024-10-12 22:01:43 [INFO]: This will be logged to the console and the file.
+2024-10-12 22:03:54 [INFO]: Data updated at flights/flight_id_12345/seats/seat_1A using transaction
+2024-10-12 22:03:54 [INFO]: flights/flight_id_12345/seats/seat_1A for user user_567
+2024-10-12 22:03:54 [INFO]: Schedule set for 10s
+2024-10-12 22:04:03 [INFO]: Seat seat_1A on flight flight_id_12345 has been reset to free due to timeout.
+2024-10-12 22:04:03 [INFO]: Canceled reset for seat seat_1A on flight flight_id_12345.
+2024-10-12 22:04:46 [INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/[seatid] ...
+2024-10-12 22:04:48 [INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/[seatid] in 2.1s (668 modules)
+2024-10-12 22:08:15 [INFO]: Client disconnected

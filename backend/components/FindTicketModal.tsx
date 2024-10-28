@@ -85,14 +85,14 @@ const FindTicketModal = (props: Props) => {
           <input
             id='passenger-count'
             type='number'
-            className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
+            className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[10px] pt-[15px] pb-[6px] outline-none w-full'
             value={passengerCount}
             onChange={(e) => setPassengerCount(e.target.value)}
+            min={1}
           />
           <label htmlFor='passenger-count' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
             Hành khách
           </label>
-          <FaSort className='absolute top-[35%] right-[10px] text-[13px] text-[#bbb] cursor-pointer' />
         </div>
 
         <Link
