@@ -71,7 +71,7 @@ const Login = ({ setOpenLogin, setOpenSignUp }) => {
           className={`${errors.email && touched.email ? "border-red-500" : ""} ${styles.input}`}
         />
         {errors.email && touched.email && <span className='text-red-500 pt-2 block'>{errors.email}</span>}
-        <div className='w-full mt-5 relative mb-1'>
+        <div className='w-full mt-3 relative mb-1'>
           <label className={styles.label} htmlFor='password'>
             Mật khẩu
           </label>

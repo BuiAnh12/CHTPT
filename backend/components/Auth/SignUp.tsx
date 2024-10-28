@@ -5,6 +5,10 @@ import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { styles } from "../../styles/styles";
 import { IoClose } from "react-icons/io5";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../util/firebase";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Please enter your name!"),
@@ -17,16 +21,34 @@ type Props = {};
 const SignUp = ({ setOpenLogin, setOpenSignUp }) => {
   const [show, setShow] = useState(false);
 
+  const handleSignUp = async ({ userid, name, email }) => {
+    try {
+      await axios.post(`/api/user/register/${userid}`, {
+        name,
+        email,
+      });
+      toast.success("Đăng ký thành công");
+      setOpenLogin(true);
+      setOpenSignUp(false);
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
   const formik = useFormik({
     initialValues: { name: "", email: "", password: "" },
     validationSchema: schema,
     onSubmit: async ({ name, email, password }) => {
-      const data = {
-        name,
-        email,
-        password,
-      };
-      console.log(data);
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        if (userCredential) {
+          await handleSignUp({ userid: user.uid, name, email });
+        }
+      } catch (error) {
+        console.error("Error during sign up:", error);
+      }
     },
   });
 
