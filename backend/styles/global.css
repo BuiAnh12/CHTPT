@@ -122,12 +122,6 @@ p {
   border: none;
 }
 
-.movie-slider .swiper-button-next:after,
-.movie-slider .swiper-button-prev:after {
-  font-size: 20px !important;
-  font-weight: 700 !important;
-}
-
 /* AIRCRAFT */
 .aircraft {
   position: relative;

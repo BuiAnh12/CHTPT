@@ -181,7 +181,7 @@ const page = (props: Props) => {
 
       <div className='w-[75%] my-[20px] mx-auto flex justify-end'>
         <Link
-          href='/booking/shopping-cart'
+          href='/booking/summary'
           className='mr-[10px] text-[18px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[10px] px-[25px] w-fit font-medium  flex items-center justify-center'
         >
           <FaArrowLeftLong />
