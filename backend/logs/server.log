@@ -290,3 +290,33 @@
 [22:01:53][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 1511ms (817 modules)
 [22:01:54][INFO]: [Task scheduling] _ Schedule set for 60s
 [22:01:54][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Seat seat_1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[22:02:55][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:02:55][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:02:56][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:02:56][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:02:56][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:02:56][INFO]: Canceled reset for seat seat_1_02_A on flight flight_id_12345.
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:12][INFO]:  [32m[1m✓[22m[39m Compiled in 32.5s (1510 modules)
+[22:04:29][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:30][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:31][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:31][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:32][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:32][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[22:04:44][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
+[22:04:44][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
+[22:04:44][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
+[22:04:44][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
+[22:04:45][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
+[22:04:45][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 18.8s (1500 modules)
