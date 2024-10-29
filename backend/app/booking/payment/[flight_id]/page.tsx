@@ -1,14 +1,107 @@
 "use client";
 import Link from "next/link";
-import React from "react";
-import { FaAngleDown, FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import React, { useEffect, useState } from "react";
+import { FaAngleDown, FaArrowLeftLong, FaArrowRightLong, FaDivide } from "react-icons/fa6";
 import { IoAirplaneSharp } from "react-icons/io5";
 import { MdAirlineSeatReclineExtra, MdFeed } from "react-icons/md";
+import { useUser } from "../../../../contexts/UserContext";
+import { FlightInfo } from "../../seat/[flight_id]/page";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { Spinner } from "react-bootstrap";
 
 type Props = {};
 
 const page = ({ params }) => {
+  const router = useRouter();
+
+  const [flightInfo, setFlightInfo] = useState<FlightInfo | null>(null);
+  const [userSeat, setUserSeat] = useState<Record<string, any> | undefined>(undefined);
+
   const { flight_id } = params;
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchFlightInfo = async () => {
+      try {
+        const result = await axios.get(`/api/flight/info/${flight_id}`);
+        setFlightInfo(result.data);
+      } catch (error) {
+        console.error("Error fetching flight info:", error);
+      }
+    };
+    fetchFlightInfo();
+  }, [flight_id]);
+
+  useEffect(() => {
+    if (flightInfo) {
+      const findSeatsByUserId = (seats, userId) => {
+        const result = [];
+        for (const seatId in seats) {
+          const seat = seats[seatId];
+          if (seat.registeredBy && seat.registeredBy.userId === userId) {
+            result.push({ seatId, ...seat });
+          }
+        }
+        return result;
+      };
+
+      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.user?.uid)[0]);
+      console.log(userSeat);
+    }
+  }, [flightInfo, user]);
+
+  if (!flightInfo) {
+    return (
+      <div className='h-screen w-full flex items-center justify-center'>
+        <Spinner animation='border' />
+      </div>
+    );
+  }
+
+  const departureTime = new Date(flightInfo?.departure?.time);
+  const arrivalTime = new Date(flightInfo.arrival.time);
+
+  const formattedDepartureTime = departureTime
+    .toLocaleString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    })
+    .replace(",", "");
+
+  // Tính toán khoảng thời gian
+  const durationInMilliseconds = arrivalTime - departureTime;
+  const durationInMinutes = Math.floor(durationInMilliseconds / 1000 / 60);
+
+  // Chuyển đổi thành giờ và phút
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+
+  // Định dạng kết quả
+  const durationString = `${hours} tiếng ${minutes} phút`;
+
+  const handlePayment = async () => {
+    try {
+      const res = await axios.post(`/api/flight/${flight_id}/seat/purchase/${userSeat?.seatId}`, {
+        userId: user.user.uid,
+        paymentInfo: {
+          amount: 250,
+          method: "credit_card",
+        },
+      });
+      if (res.status === 200) {
+        toast.success("Thanh toán thành công");
+        router.push(`/home`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className='w-[75%] my-[20px] mx-auto '>
@@ -56,12 +149,12 @@ const page = ({ params }) => {
                 <FaArrowLeftLong />
               </Link>
 
-              <Link
-                href='/booking/traveler'
-                className='mr-[10px] text-[16px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[4px] px-[6px] w-fit font-medium flex justify-end'
+              <div
+                className='mr-[10px] text-[16px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[4px] px-[6px] w-fit font-medium flex justify-end cursor-pointer'
+                onClick={() => handlePayment()}
               >
-                TIẾP TỤC
-              </Link>
+                HOÀN TẤT THANH TOÁN
+              </div>
             </div>
           </div>
         </div>
@@ -82,9 +175,9 @@ const page = ({ params }) => {
                 <div className='flex items-center gap-2'>
                   <IoAirplaneSharp className='text-[#007390]' />
                   <div className='flex items-center gap-1'>
-                    <span className='text-[13px]'>HAN</span>
+                    <span className='text-[13px]'>{flightInfo.departure.airportCode || "Unknown"}</span>
                     <FaArrowRightLong className='text-[#007390]' />
-                    <span className='text-[13px]'>SGN</span>
+                    <span className='text-[13px]'>{flightInfo.arrival.airportCode || "Unknown"}</span>
                   </div>
                 </div>
 
@@ -104,12 +197,16 @@ const page = ({ params }) => {
 
                 <div className='p-[10px] flex flex-col'>
                   <div className='flex items-center gap-1'>
-                    <span className='font-bold text-[14px]'>Hà Nội (HAN)</span>
+                    <span className='font-bold text-[14px]'>
+                      {flightInfo?.departure?.city || "Unknown"} ({flightInfo?.departure?.airportCode || "N/A"})
+                    </span>
                     <FaArrowRightLong className='font-bold text-[14px]' />
-                    <span className='font-bold text-[14px]'>Tp. Hồ Chí Minh (SGN)</span>
+                    <span className='font-bold text-[14px]'>
+                      {flightInfo?.arrival?.city || "Unknown"} ({flightInfo?.arrival?.airportCode || "N/A"})
+                    </span>
                   </div>
-                  <p className='text-[13px] my-[2px]'>Thời gian: 2 tiếng 15 phút / Bay thẳng</p>
-                  <p className='text-[13px] my-[2px]'>VN 269 Airbus A321</p>
+                  <p className='text-[13px] my-[2px]'>Thời gian: {durationString || "N/A"} / Bay thẳng</p>
+                  <p className='text-[13px] my-[2px]'>{flightInfo?.flightNumber || "Unknown Flight Number"}</p>
                   <p className='text-[13px] my-[2px] text-[#007390]'>Hãng khai thác PTIT Airlines</p>
                 </div>
 
@@ -121,7 +218,7 @@ const page = ({ params }) => {
                       <span className='text-[13px] text-[#007390]'>VND</span>
                     </span>
                   </div>
-                  <span className='text-[13px]'>A1 - NGUYEN NGOC DAT</span>
+                  <span className='text-[13px]'>{userSeat?.seatId} - NGUYEN NGOC DAT</span>
                 </div>
               </div>
             </div>
@@ -142,7 +239,7 @@ const page = ({ params }) => {
 
               <div className=''>
                 <div className='p-[10px] flex flex-col'>
-                  <p className='font-bold text-[13px] my-[2px]'>Ghế: A1</p>
+                  <p className='font-bold text-[13px] my-[2px]'>Ghế: {userSeat?.seatId}</p>
                 </div>
               </div>
             </div>

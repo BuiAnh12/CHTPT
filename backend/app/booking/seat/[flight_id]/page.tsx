@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 type Props = {};
 
-interface FlightInfo {
+export interface FlightInfo {
   arrival: LocationInfo;
   departure: LocationInfo;
   flightNumber: string;
