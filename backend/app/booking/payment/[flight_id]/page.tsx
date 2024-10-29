@@ -47,7 +47,7 @@ const page = ({ params }) => {
         return result;
       };
 
-      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.user?.uid)[0]);
+      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.userId)[0]);
       console.log(userSeat);
     }
   }, [flightInfo, user]);
@@ -88,7 +88,7 @@ const page = ({ params }) => {
   const handlePayment = async () => {
     try {
       const res = await axios.post(`/api/flight/${flight_id}/seat/purchase/${userSeat?.seatId}`, {
-        userId: user.user.uid,
+        userId: user.userId,
         paymentInfo: {
           amount: 250,
           method: "credit_card",
@@ -192,7 +192,7 @@ const page = ({ params }) => {
               <div className=''>
                 <div className='px-[10px] py-[6px] bg-[#fdfae9] flex gap-1'>
                   <span className='font-bold text-[#007390]'>Khởi hành</span>
-                  <span>22:30, 21 tháng 10 2024</span>
+                  <span>{formattedDepartureTime}</span>
                 </div>
 
                 <div className='p-[10px] flex flex-col'>
@@ -218,7 +218,7 @@ const page = ({ params }) => {
                       <span className='text-[13px] text-[#007390]'>VND</span>
                     </span>
                   </div>
-                  <span className='text-[13px]'>{userSeat?.seatId} - NGUYEN NGOC DAT</span>
+                  <span className='text-[13px] uppercase'>{userSeat?.seatId} - {user.name}</span>
                 </div>
               </div>
             </div>
