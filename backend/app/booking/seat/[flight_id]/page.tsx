@@ -56,22 +56,41 @@ const page = ({ params }) => {
 
   const [flightInfo, setFlightInfo] = useState<FlightInfo | null>(null);
   const [activeSeat, setActiveSeat] = useState(null);
+  const [userSeat, setUserSeat] = useState<Record<string, any> | undefined>(undefined);
 
   const { flight_id } = params;
   const { user } = useUser();
 
-  useEffect(() => {
-    const fetchFlightInfo = async () => {
-      try {
-        const result = await axios.get(`/api/flight/info/${flight_id}`);
-        setFlightInfo(result.data);
-      } catch (error) {
-        console.error("Error fetching flight info:", error);
-      }
-    };
+  const fetchFlightInfo = async () => {
+    try {
+      const result = await axios.get(`/api/flight/info/${flight_id}`);
+      setFlightInfo(result.data);
+    } catch (error) {
+      console.error("Error fetching flight info:", error);
+    }
+  };
 
+  const findSeatsByUserId = (seats, userId) => {
+    const result = [];
+    for (const seatId in seats) {
+      const seat = seats[seatId];
+      if (seat.registeredBy && seat.registeredBy.userId === userId) {
+        result.push({ seatId, ...seat });
+      }
+    }
+    return result;
+  };
+
+  useEffect(() => {
     fetchFlightInfo();
   }, [flight_id]);
+
+  useEffect(() => {
+    if (flightInfo) {
+      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.user?.uid)[0]);
+      console.log(userSeat);
+    }
+  }, [flightInfo, user]);
 
   if (!flightInfo) {
     return (
@@ -132,6 +151,7 @@ const page = ({ params }) => {
           });
           if (res.status === 200) {
             toast.success("Chọn chỗ thành công");
+            fetchFlightInfo();
             router.push(`/booking/payment/${flight_id}`);
           }
         } catch (error) {
@@ -142,6 +162,19 @@ const page = ({ params }) => {
       }
     } else {
       toast.error("Vui lòng chọn chỗ để tiếp tục!");
+    }
+  };
+
+  const handleCancelSeat = async () => {
+    try {
+      const res = await axios.post(`/api/flight/${flight_id}/seat/reset/${userSeat?.seatId}`);
+      console.log(res);
+      if (res.status === 200) {
+        toast.success("Hủy chọn chỗ thành công");
+        fetchFlightInfo();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -168,10 +201,18 @@ const page = ({ params }) => {
                   <div
                     key={seatName}
                     className={`seat ${
-                      seatInfo?.status === "free" ? (activeSeat === seatName ? "active" : "") : "already"
+                      seatInfo?.status === "free"
+                        ? activeSeat === seatName
+                          ? "active"
+                          : ""
+                        : userSeat?.seatId === seatName
+                        ? "active"
+                        : "already"
                     }`}
                     onClick={() => {
-                      if (seatInfo?.status === "free") {
+                      if (userSeat !== undefined) {
+                        toast.error("Vui lòng hủy chỗ để chọn lại chỗ!");
+                      } else if (seatInfo?.status === "free") {
                         setActiveSeat(seatName);
                       } else {
                         toast.error("Chỗ ngồi đã không còn trống. Vui lòng chọn chỗ ngồi khác!");
@@ -199,10 +240,18 @@ const page = ({ params }) => {
                   <div
                     key={seatName}
                     className={`seat ${
-                      seatInfo?.status === "free" ? (activeSeat === seatName ? "active" : "") : "already"
+                      seatInfo?.status === "free"
+                        ? activeSeat === seatName
+                          ? "active"
+                          : ""
+                        : userSeat?.seatId === seatName
+                        ? "active"
+                        : "already"
                     }`}
                     onClick={() => {
-                      if (seatInfo?.status === "free") {
+                      if (userSeat !== undefined) {
+                        toast.error("Vui lòng hủy chỗ để chọn lại chỗ!");
+                      } else if (seatInfo?.status === "free") {
                         setActiveSeat(seatName);
                       } else {
                         toast.error("Chỗ ngồi đã không còn trống. Vui lòng chọn chỗ ngồi khác!");
@@ -331,26 +380,39 @@ const page = ({ params }) => {
             </div>
           </div>
 
-          <div className=''>
-            <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
-              <div className='flex items-center gap-2'>
-                <MdAirlineSeatReclineExtra className='text-[#007390]' />
-                <div className='flex items-center gap-1'>
-                  <span className='text-[13px]'>Chỗ ngồi</span>
+          {(activeSeat || userSeat !== undefined) && (
+            <div className=''>
+              <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
+                <div className='flex items-center gap-2'>
+                  <MdAirlineSeatReclineExtra className='text-[#007390]' />
+                  <div className='flex items-center gap-1'>
+                    <span className='text-[13px]'>Chỗ ngồi</span>
+                  </div>
+                </div>
+
+                <div className='flex gap-1'>
+                  <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
                 </div>
               </div>
 
-              <div className='flex gap-1'>
-                <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
-              </div>
-            </div>
+              <div className=''>
+                <div className='p-[10px] flex flex-row justify-between items-center'>
+                  <span className='font-bold text-[13px] my-[2px]'>{`Ghế đang chọn: ${
+                    userSeat?.seatId ? userSeat?.seatId : activeSeat
+                  }`}</span>
 
-            <div className=''>
-              <div className='p-[10px] flex flex-col'>
-                <p className='font-bold text-[13px] my-[2px]'>Ghế: A1</p>
+                  {userSeat !== undefined && (
+                    <div
+                      className='text-[14px] text-[#fff] hover:text-[#e64141] bg-[#e64141] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e64141] py-[3px] px-[6px] w-fit font-medium cursor-pointer'
+                      onClick={() => handleCancelSeat()}
+                    >
+                      HỦY CHỌN CHỖ
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
 
         <div
