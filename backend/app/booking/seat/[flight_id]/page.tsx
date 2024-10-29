@@ -87,7 +87,7 @@ const page = ({ params }) => {
 
   useEffect(() => {
     if (flightInfo) {
-      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.user?.uid)[0]);
+      setUserSeat(findSeatsByUserId(flightInfo.seats, user?.userId)[0]);
       console.log(userSeat);
     }
   }, [flightInfo, user]);
@@ -147,7 +147,7 @@ const page = ({ params }) => {
       if (seat?.status === "free") {
         try {
           const res = await axios.post(`/api/flight/${flight_id}/seat/register/${activeSeat}`, {
-            userId: user.user.uid,
+            userId: user.userId,
           });
           if (res.status === 200) {
             toast.success("Chọn chỗ thành công");
@@ -375,7 +375,7 @@ const page = ({ params }) => {
                     <span className='text-[13px] text-[#007390]'>VND</span>
                   </span>
                 </div>
-                <span className='text-[13px]'>NGUYEN NGOC DAT</span>
+                <span className='text-[13px] uppercase'>{user.name}</span>
               </div>
             </div>
           </div>

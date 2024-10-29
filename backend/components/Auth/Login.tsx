@@ -9,6 +9,7 @@ import { styles } from "../../styles/styles";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../util/firebase";
 import { useUser } from "../../contexts/UserContext";
+import axios from "axios";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Please enter your email!"),
@@ -33,10 +34,17 @@ const Login = ({ setOpenLogin, setOpenSignUp }) => {
       const result = await signInWithEmailAndPassword(auth, email, password);
       if (result) {
         console.log(result);
-        setUser(result);
-        localStorage.setItem("user_id", result.user.uid); // save cached user
-        toast.success("Đăng nhập thành công");
-        setOpenLogin(false);
+        const user = await axios.get(`/api/user/info/${result.user.uid}`);
+        console.log(user);
+        if (user) {
+          setUser({
+            userId: result.user.uid,
+            name: user.data.name,
+            email: user.data.email,
+          });
+          toast.success("Đăng nhập thành công");
+          setOpenLogin(false);
+        }
       }
       console.log(result);
     } catch (error) {
