@@ -7,7 +7,9 @@ import { MdAirlineSeatReclineExtra, MdFeed } from "react-icons/md";
 
 type Props = {};
 
-const page = (props: Props) => {
+const page = ({ params }) => {
+  const { flight_id } = params;
+
   return (
     <div className='w-[75%] my-[20px] mx-auto '>
       <div
@@ -48,7 +50,7 @@ const page = (props: Props) => {
 
             <div className=' px-[10px] py-[15px] flex  justify-end'>
               <Link
-                href='/booking/seat'
+                href={`/booking/seat/${flight_id}`}
                 className='mr-[10px] text-[16px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[10px] px-[25px] w-fit font-medium flex items-center justify-center'
               >
                 <FaArrowLeftLong />
@@ -71,7 +73,7 @@ const page = (props: Props) => {
               boxShadow: "0 4px 8px rgba(0,0,0,.175)",
             }}
           >
-            <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px]'>
+            <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px] m-0'>
               Chi tiết chuyến bay
             </h3>
 

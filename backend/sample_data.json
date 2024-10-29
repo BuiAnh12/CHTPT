@@ -1,54 +1,53 @@
 {
-"flights": {
+  "flights": {
     "flight_id_12345": {
-    "flightNumber": "AB123",
-    "departure": {
+      "flightNumber": "AB123",
+      "departure": {
         "city": "New York",
         "airportCode": "JFK",
         "time": "2024-10-20T08:00:00Z"
-    },
-    "arrival": {
+      },
+      "arrival": {
         "city": "Los Angeles",
         "airportCode": "LAX",
         "time": "2024-10-20T11:00:00Z"
-    },
-    "seats": {
+      },
+      "seats": {
         "seat_1A": {
-        "status": "free",
-        "registeredBy": null,
-        "purchasedBy": null
+          "status": "free",
+          "registeredBy": null,
+          "purchasedBy": null
         },
         "seat_1B": {
-        "status": "register",
-        "registeredBy": {
+          "status": "register",
+          "registeredBy": {
             "userId": "user_567",
             "timestamp": "2024-10-06T14:30:00Z"
-        },
-        "purchasedBy": null
+          },
+          "purchasedBy": null
         },
         "seat_1C": {
-        "status": "purchase",
-        "purchasedBy": {
+          "status": "purchase",
+          "purchasedBy": {
             "userId": "user_789",
             "timestamp": "2024-10-06T14:35:00Z",
             "paymentInfo": {
-            "method": "credit_card",
-            "amount": 250
+              "method": "credit_card",
+              "amount": 250
             }
+          }
         }
-        }
+      }
     }
-    }
-},
-"users": {
+  },
+  "users": {
     "user_567": {
-    "name": "John Doe",
-    "email": "john@example.com"
+      "name": "John Doe",
+      "email": "john@example.com"
     },
     "user_789": {
-    "name": "Jane Smith",
-    "email": "jane@example.com"
+      "name": "Jane Smith",
+      "email": "jane@example.com"
     }
+  }
 }
-}
-  

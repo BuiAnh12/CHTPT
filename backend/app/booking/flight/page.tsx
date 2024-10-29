@@ -129,11 +129,7 @@ const page = (props: Props) => {
               <h4 className='font-bold text-[20px]'>1.724.000</h4>
               <p>VND</p>
 
-              {selectedTicket === "popular-ticket" ? (
-                <FaChevronUp className='mt-[15px]' />
-              ) : (
-                <FaChevronDown className='mt-[15px]' />
-              )}
+              {selectedTicket === "popular-ticket" ? <FaChevronUp className='' /> : <FaChevronDown className='' />}
 
               <FaTag className='absolute top-[10px] right-[5px] text-[25px]' />
             </div>
@@ -155,11 +151,7 @@ const page = (props: Props) => {
               <h4 className='font-bold text-[20px]'>1.724.000</h4>
               <p>VND</p>
 
-              {selectedTicket === "merchant-ticket" ? (
-                <FaChevronUp className='mt-[15px]' />
-              ) : (
-                <FaChevronDown className='mt-[15px]' />
-              )}
+              {selectedTicket === "merchant-ticket" ? <FaChevronUp className='' /> : <FaChevronDown className='' />}
 
               <FaTag className='absolute top-[10px] right-[10px] text-[25px]' />
             </div>
@@ -486,7 +478,7 @@ const page = (props: Props) => {
                   {selectedTicketPrice && (
                     <div className='mb-[20px] text-center w-full block'>
                       <Link
-                        href='/booking/summary'
+                        href={`/booking/summary/flight_id_12345`}
                         className='text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[5px] px-[15px] w-fit font-medium '
                       >
                         XÁC NHẬN VÀ TIẾP TỤC
@@ -720,7 +712,7 @@ const page = (props: Props) => {
                   {selectedTicketPrice && (
                     <div className='mb-[20px] text-center w-full block'>
                       <Link
-                        href='/booking/summary'
+                        href={`/booking/summary/flight_id_12345`}
                         className='text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[5px] px-[15px] w-fit font-medium '
                       >
                         XÁC NHẬN VÀ TIẾP TỤC

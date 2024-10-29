@@ -2,12 +2,14 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp, FaArrowLeftLong } from "react-icons/fa6";
-import FindTicketModal from "../../../components/FindTicketModal";
+import FindTicketModal from "../../../../components/FindTicketModal";
 
 type Props = {};
 
-const page = (props: Props) => {
+const page = ({ params }) => {
   const [findFlights, setFindFlights] = useState(false);
+
+  const { flight_id } = params;
 
   return (
     <div>
@@ -181,14 +183,14 @@ const page = (props: Props) => {
 
       <div className='w-[75%] my-[20px] mx-auto flex justify-end'>
         <Link
-          href='/booking/summary'
+          href={`/booking/summary/${flight_id}`}
           className='mr-[10px] text-[18px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[10px] px-[25px] w-fit font-medium  flex items-center justify-center'
         >
           <FaArrowLeftLong />
         </Link>
 
         <Link
-          href='/booking/seat'
+          href={`/booking/seat/${flight_id}`}
           className='text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[10px] px-[15px] w-fit font-medium'
         >
           XÁC NHẬN

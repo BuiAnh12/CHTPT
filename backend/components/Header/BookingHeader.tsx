@@ -13,14 +13,24 @@ import {
 import { IoAirplaneSharp } from "react-icons/io5";
 import { MdAirlineSeatReclineExtra } from "react-icons/md";
 import { RiUserLine } from "react-icons/ri";
+import { useUser } from "../../contexts/UserContext";
+import avatar from "../../public/defaultAvatar.png";
+import Image from "next/image";
+import SignUp from "../Auth/SignUp";
+import Login from "../Auth/Login";
 
 type Props = {};
 
 const BookingHeader = ({ step }) => {
-  const [user, setUser] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
+
+  const { user, setUser } = useUser();
+
+  const handleLogout = () => {
+    setUser(null);
+  };
 
   return (
     <>
@@ -39,10 +49,12 @@ const BookingHeader = ({ step }) => {
             {user ? (
               <div className='flex items-center gap-3'>
                 <div className='relative ml-4'>
-                  <img
-                    src={"../../public/defaultAvatar.png"}
+                  <Image
+                    src={avatar}
                     alt='avatar'
-                    className='w-[30px] h-[30px] object-cover rounded-full cursor-pointer'
+                    width={30}
+                    height={30}
+                    className='object-cover rounded-full cursor-pointer'
                     onClick={() => setOpenModal(!openModal)}
                   />
 
@@ -64,7 +76,10 @@ const BookingHeader = ({ step }) => {
                           <RiUserLine />
                           <span> Tài khoản của tôi</span>
                         </Link>
-                        <div className='text-[16px] font-Poppins font-medium text-[#e0e0e0] drop-shadow-[1px_1px_1px_#000] hover:text-[#005a8c] hover:border-l-[3px] hover:border-[#005a8c] p-2 flex items-center gap-2 hover:bg-[#96969633] cursor-pointer'>
+                        <div
+                          className='text-[16px] font-Poppins font-medium text-[#e0e0e0] drop-shadow-[1px_1px_1px_#000] hover:text-[#005a8c] hover:border-l-[3px] hover:border-[#005a8c] p-2 flex items-center gap-2 hover:bg-[#96969633] cursor-pointer'
+                          onClick={() => handleLogout()}
+                        >
                           <FaArrowRightFromBracket />
                           <span>Đăng xuất</span>
                         </div>
@@ -247,6 +262,17 @@ const BookingHeader = ({ step }) => {
           </div>
         </div>
       </header>
+
+      {openLogin && (
+        <div className='fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[85%] sm:w-[500px] bg-[#f8f8f8] rounded-[8px] shadow p-4 outline-none z-[2000]'>
+          <Login setOpenLogin={setOpenLogin} setOpenSignUp={setOpenSignUp} />
+        </div>
+      )}
+      {openSignUp && (
+        <div className='fixed top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[85%] sm:w-[500px] bg-[#f8f8f8] rounded-[8px] shadow p-4 outline-none z-[2000]'>
+          <SignUp setOpenLogin={setOpenLogin} setOpenSignUp={setOpenSignUp} />
+        </div>
+      )}
     </>
   );
 };
