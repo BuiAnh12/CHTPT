@@ -224,9 +224,10 @@ p {
   background: #ffe2ae;
 }
 
-.aircraft .aircraft-body .seat.empty,
-.seat.empty {
+.aircraft .aircraft-body .seat.already,
+.seat.already {
   background: #e6e7e9;
+  cursor: not-allowed;
 }
 
 .aircraft .aircraft-body .seat::before,

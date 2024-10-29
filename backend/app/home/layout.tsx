@@ -1,5 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
+import Heading from "../../components/Heading";
 
 // Dynamically import Header and Footer components with no SSR
 const Header = dynamic(() => import("../../components/Header/Header"), {
@@ -13,6 +14,7 @@ const Footer = dynamic(() => import("../../components/Footer"), {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
+      <Heading title='PTIT Airlines' description='' keywords='' icon='../../public/favicon.ico' />
       <Header />
       <div>{children}</div>
       <Footer />
