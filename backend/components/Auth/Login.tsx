@@ -100,7 +100,11 @@ const Login = ({ setOpenLogin, setOpenSignUp }) => {
           {errors.password && touched.password && <span className='text-red-500 pt-2 block'>{errors.password}</span>}
         </div>
         <div className='w-full mt-5'>
-          <input type='submit' value='Đăng nhập' className={`${styles.button} hover:bg-[#0077b9] text-white`} />
+          <input
+            type='submit'
+            value='Đăng nhập'
+            className={`${styles.button} !bg-[#005a8c]  hover:bg-[#0077b9] text-white`}
+          />
         </div>
 
         {/* <div className='relative py-3 mt-3'>

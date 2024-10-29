@@ -9,7 +9,7 @@ interface ScheduledTask {
   job: schedule.Job;
 }
 
-let timeoutDuration = 10 * 1000 * 6;
+let timeoutDuration = 10 * 1000 * 60;
 
 // Function to set the timeout duration
 export const setTimeOut = (timeout) => {
