@@ -16,6 +16,11 @@
 - **[GET]** `/api/flight/info/[flightid]`  
   Retrieves information about a specific flight.
 
+- **[GET]** `/api/flight/total`  
+  Retrieves information about all flights.
+
+- **[GET]** `/api/flight/info/[flightid]/price`  
+  Retrieves information about all flights price per type.
 ---
 
 ## Seat API
@@ -28,3 +33,6 @@
 
 - **[POST]** `/api/flight/[flightid]/seat/purchase/[seatid]`  
   Purchases a seat for a specific flight.
+
+- **[GET]** `/api/flight/[flightid]/seat/total`  
+  Retrieves information about all seat on a flight.

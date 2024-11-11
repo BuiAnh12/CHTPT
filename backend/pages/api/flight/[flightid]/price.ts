@@ -1,27 +1,26 @@
-// pages/api/flight/[flightid]/seat/[seatid].ts
+// pages/api/flight/[flightid]/seat/
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { readData } from '../../../../../util/firebase';
+import { readData } from '../../../../util/firebase';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { flightid, seatid } = req.query;
+    const { flightid} = req.query;
 
     if (req.method === 'GET') {
-        if (!flightid || !seatid) {
-            return res.status(400).json({ error: 'Flight ID and Seat ID are required.' });
+        if (!flightid) {
+            return res.status(400).json({ error: 'Flight ID are required.' });
         }
         try {
-            const path = `flights/${flightid}/seats/${seatid}`;
+            const path = `flights/${flightid}/price`;
             const result = await readData(path);
-            const update = await updateData(path, )
-
             if (result) {
                 return res.status(200).json(result);
             } else {
                 return res.status(404).json({ error: "We could not find the resource you requested" });
             }
         }
-        catch (error) {
-            return res.status(500).json({ error: "Unexpected internal server error", detail: error })
+        catch (err) {
+            console.log(err)
+            return res.status(500).json({ error: "Unexpected internal server error", detail: err })
         }
     } else {
         return res.status(405).json({ error: 'Method not allowed' });
