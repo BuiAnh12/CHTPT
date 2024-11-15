@@ -7,6 +7,8 @@ import logger from '../../../../../../util/logger';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { flightid, seatid } = req.query;
   const { userId } = req.body;
+  const { passengerDetails} = req.body;
+  // const { honorifics, firstName, lastName, dateOfBirth, email, contactName, contactType, countryCode, phonenumber} = infomation
 
   if (req.method === 'POST') {
     if (!flightid || !seatid || !userId) {
@@ -28,7 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         registeredBy: {
           userId,
           timestamp: registerTime,
-        }
+        },
+        passengerDetails: passengerDetails
       };
       await registerSeat(seatPath, updatedSeatData);
       scheduleSeatReset(flightid as string, seatid as string, registerTime)
