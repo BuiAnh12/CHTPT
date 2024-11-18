@@ -9,7 +9,7 @@ interface ScheduledTask {
   job: schedule.Job;
 }
 
-let timeoutDuration = 10 * 1000 * 60;
+let timeoutDuration = 60000 * 3;
 
 // Function to set the timeout duration
 export const setTimeOut = (timeout) => {
@@ -28,25 +28,6 @@ export const getTimeOut = () => {
 
 export const scheduledTasks: ScheduledTask[] = [];
 
-// Function to schedule seat reset after a timeout
-export const scheduleSeatReset = (flightId: string, seatId: string, registerTime: string) => {
-  // Schedule the job for resetting the seat after timeout
-  const job = schedule.scheduleJob(new Date(Date.parse(registerTime) + timeoutDuration), async () => {
-    // Reset the seat status to free after timeout
-    await update(ref(database, `flights/${flightId}/seats/${seatId}`), {
-      status: "free",
-      registeredBy: null,
-      registeredAt: null,
-    });
-    console.log(`Seat ${seatId} on flight ${flightId} has been reset to free due to timeout.`);
-    // Remove the task from the scheduledTasks array after execution
-    cancelSeatReset(flightId, seatId);
-  });
-
-  // Add the scheduled task to the array
-  scheduledTasks.push({ flightId, seatId, registerTime, job });
-};
-
 // Function to cancel seat reset
 export const cancelSeatReset = (flightId: string, seatId: string) => {
   const taskIndex = scheduledTasks.findIndex((task) => task.flightId === flightId && task.seatId === seatId);
@@ -57,6 +38,44 @@ export const cancelSeatReset = (flightId: string, seatId: string) => {
     scheduledTasks.splice(taskIndex, 1);
     console.log(`Canceled reset for seat ${seatId} on flight ${flightId}.`);
   }
+};
+
+// Function to schedule seat reset after a timeout
+export const scheduleSeatReset = (flightId: string, seatId: string, registerTime: string, registeredBy) => {
+  // Schedule the job for resetting the seat after timeout
+  const job = schedule.scheduleJob(new Date(Date.parse(registerTime) + timeoutDuration), async () => {
+    // Fetch the latest seat data from Firebase
+    const seatRef = ref(database, `flights/${flightId}/seats/${seatId}`);
+    const seatSnapshot = await readData(`flights/${flightId}/seats/${seatId}`);
+
+    if (seatSnapshot) {
+      const currentSeat = seatSnapshot;
+
+      // Check if the seat has the same registeredBy and registerTime
+      if (
+        currentSeat.status === "register" &&
+        currentSeat.registeredBy.userId == registeredBy.userId &&
+        currentSeat.registeredBy.timestamp == registerTime
+      ) {
+        // Reset the seat status to free if it matches the original data
+        await update(seatRef, {
+          status: "free",
+          registeredBy: null,
+          registeredAt: null,
+          passengerDetails: null,
+        });
+        console.log(`Seat ${seatId} on flight ${flightId} has been reset to free due to timeout.`);
+      } else {
+        console.log(`Seat ${seatId} on flight ${flightId} has been re-registered. Reset canceled.`);
+      }
+    }
+
+    // Remove the task from the scheduledTasks array after execution
+    cancelSeatReset(flightId, seatId);
+  });
+
+  // Add the scheduled task to the array
+  scheduledTasks.push({ flightId, seatId, registerTime, job });
 };
 
 // Function to reload jobs from Firebase database based on existing data
@@ -90,6 +109,7 @@ export const reloadJob = async () => {
               status: "free",
               registeredBy: null,
               registeredAt: null,
+              passengerDetails: null,
             });
             console.log(`Seat ${seatId} on flight ${flightId} has been reset to free after reload.`);
           }

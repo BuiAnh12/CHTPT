@@ -21,7 +21,7 @@ import Login from "../Auth/Login";
 
 type Props = {};
 
-const BookingHeader = ({ step }) => {
+const BookingHeader = ({ step, departure, arrival, amountPassenger }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -104,7 +104,7 @@ const BookingHeader = ({ step }) => {
         </div>
 
         <div className='z-[1000] text-[#222] bg-[#f5edd0] border-y-[1px] border-[#d0dad2]'>
-          <div className='w-[75%]  m-auto relative'>
+          <div className='w-[75%] m-auto relative'>
             <div className='flex'>
               <div
                 className={`relative flex items-center gap-2 mr-[30px] py-[10px] pl-[10px] z-1 ${
@@ -129,9 +129,9 @@ const BookingHeader = ({ step }) => {
                       (step === 2 || step === 3 || step === 4) && "text-[#007390]"
                     }`}
                   >
-                    <span className='text-[18px] font-bold'>HAN</span>
+                    <span className='text-[18px] font-bold'>{departure}</span>
                     <FaArrowRightLong className='text-[14px]' />
-                    <span className='text-[18px] font-bold'>SGN</span>
+                    <span className='text-[18px] font-bold'>{arrival}</span>
                   </div>
 
                   <div className='flex flex-row justify-between'>
@@ -174,7 +174,7 @@ const BookingHeader = ({ step }) => {
                   <span className={`text-[18px] ${step === 3 || step === 4 ? "text-[#007390]" : "text-[#383838]"}`}>
                     Thông tin khách
                   </span>
-                  <span className='text-[14px] text-[#383838]'>1 hành khách</span>
+                  {amountPassenger && <span className='text-[14px] text-[#383838]'>{amountPassenger} hành khách</span>}
                 </div>
 
                 {step === 2 && (

@@ -7,23 +7,24 @@ type Props = {};
 
 const FindTicketModal = (props: Props) => {
   const [fromCity, setFromCity] = useState("Hà Nội (HAN), Việt Nam");
-  const [toCity, setToCity] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
+  const [toCity, setToCity] = useState("Hồ Chí Minh (SGN), Việt Nam");
+  const defaultDate = new Date("2024-12-20T08:00:00Z").toISOString().split("T")[0];
+  const [departureDate, setDepartureDate] = useState(defaultDate);
   const [returnDate, setReturnDate] = useState("");
   const [passengerCount, setPassengerCount] = useState("");
 
   return (
     <>
       <div className='flex gap-2'>
-        <button className='bg-[#0980A0] text-[#fff] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
+        {/* <button className='bg-[#0980A0] text-[#fff] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
           Khứ hồi
-        </button>
+        </button> */}
         <button className='bg-[#f0eee9] text-[#333] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
           Một chiều
         </button>
-        <button className='bg-[#f0eee9] text-[#333] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
+        {/* <button className='bg-[#f0eee9] text-[#333] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
           Nhiều chặng
-        </button>
+        </button> */}
       </div>
 
       <div className='mb-[5px] flex gap-2'>
@@ -35,6 +36,7 @@ const FindTicketModal = (props: Props) => {
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
               value={fromCity}
               onChange={(e) => setFromCity(e.target.value)}
+              readOnly
             />
             <label htmlFor='city-from' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
               Từ
@@ -51,6 +53,7 @@ const FindTicketModal = (props: Props) => {
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
               value={toCity}
               onChange={(e) => setToCity(e.target.value)}
+              readOnly
             />
             <label htmlFor='city-to' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
               Đến
@@ -66,22 +69,27 @@ const FindTicketModal = (props: Props) => {
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[10px] pt-[15px] pb-[6px] outline-none w-full'
               value={departureDate}
               onChange={(e) => setDepartureDate(e.target.value)}
+              readOnly
             />
+            <label htmlFor='city-from' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
+              Từ ngày
+            </label>
           </div>
 
           <div className='relative w-[48%] mr-[10px]'>
-            <input
+            {/* <input
               type='date'
               className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[10px] pt-[15px] pb-[6px] outline-none w-full'
               value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
-            />
+            /> */}
           </div>
         </div>
       </div>
 
       <div className='flex justify-between mt-[20px] mb-[15px]'>
-        <div className='relative w-[28%]'>
+        <div></div>
+        {/* <div className='relative w-[28%]'>
           <input
             id='passenger-count'
             type='number'
@@ -93,7 +101,7 @@ const FindTicketModal = (props: Props) => {
           <label htmlFor='passenger-count' className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'>
             Hành khách
           </label>
-        </div>
+        </div> */}
 
         <Link
           href='/booking/flight'
