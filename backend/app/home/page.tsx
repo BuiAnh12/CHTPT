@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Hero from "../../components/Hero";
 import { Col, Nav, Row, Tab } from "react-bootstrap";
 import { IoAirplane } from "react-icons/io5";
@@ -82,6 +82,10 @@ type Props = {};
 
 const page = (props: Props) => {
   const [key, setKey] = useState<string>("link-1");
+
+  useEffect(() => {
+    localStorage.removeItem("passengerDetails");
+  }, []);
 
   return (
     <>

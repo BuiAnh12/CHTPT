@@ -1,21 +1,13 @@
 "use client";
-import dynamic from "next/dynamic";
 import Heading from "../../../components/Heading";
-
-// Dynamically import Header and Footer components with no SSR
-const BookingHeader = dynamic(() => import("../../../components/Header/BookingHeader"), {
-  ssr: false,
-});
-
-const Footer = dynamic(() => import("../../../components/Footer"), {
-  ssr: false,
-});
+import BookingHeader from "../../../components/Header/BookingHeader";
+import Footer from "../../../components/Footer";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='bg-[#f8f8f8]'>
       <Heading title='Chọn chuyến bay' description='' keywords='' icon='../../public/favicon.ico' />
-      <BookingHeader step={1} />
+
       <div>{children}</div>
       <Footer />
     </div>

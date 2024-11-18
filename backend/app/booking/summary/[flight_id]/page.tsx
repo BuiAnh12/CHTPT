@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaAngleDown, FaAngleUp, FaArrowLeftLong, FaChevronDown, FaChevronUp, FaRegClock } from "react-icons/fa6";
 import { TiTicket } from "react-icons/ti";
 import { HiOutlineTicket } from "react-icons/hi2";
@@ -12,21 +12,106 @@ import Link from "next/link";
 import { useUser } from "../../../../contexts/UserContext";
 import Login from "../../../../components/Auth/Login";
 import SignUp from "../../../../components/Auth/SignUp";
+import BookingHeader from "../../../../components/Header/BookingHeader";
+import axios from "axios";
+import { Spinner } from "react-bootstrap";
+import { useParams, useSearchParams } from "next/navigation";
 
 type Props = {};
 
-const page = ({ params }) => {
+const page = () => {
+  const params = useParams();
+  const searchParams = useSearchParams();
+
+  const flight_id = params.flight_id;
+  const flightClass = searchParams.get("class");
+  const { user } = useUser();
+
   const [expandDetail, setExpandDetail] = useState(false);
   const [findFlights, setFindFlights] = useState(false);
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignUp, setOpenSignUp] = useState(false);
 
-  const { flight_id } = params;
+  const [flightInfo, setFlightInfo] = useState(null);
 
-  const { user } = useUser();
+  useEffect(() => {
+    localStorage.removeItem("passengerDetails");
+  }, []);
+
+  const fetchFlightInfo = async () => {
+    try {
+      const res = await axios.get(`/api/flight/info/${flight_id}`);
+
+      if (res.status === 200) {
+        setFlightInfo(res.data);
+      }
+    } catch (error) {
+      console.error("Error fetching flight info:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchFlightInfo();
+  }, [flight_id]);
+
+  if (!flightInfo) {
+    return (
+      <div className='h-screen w-full flex items-center justify-center'>
+        <Spinner animation='border' />
+      </div>
+    );
+  }
+
+  const departureTime = new Date(flightInfo?.departure?.time);
+  const arrivalTime = new Date(flightInfo.arrival.time);
+
+  const fullFormattedDepartureTime = departureTime
+    .toLocaleString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    })
+    .replace(",", "");
+
+  const formattedDepartureTime = departureTime
+    .toLocaleString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    })
+    .replace(",", "");
+
+  const formattedArrivalTime = arrivalTime
+    .toLocaleString("vi-VN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "UTC",
+    })
+    .replace(",", "");
+
+  // Tính toán khoảng thời gian
+  const durationInMilliseconds = arrivalTime - departureTime;
+  const durationInMinutes = Math.floor(durationInMilliseconds / 1000 / 60);
+
+  // Chuyển đổi thành giờ và phút
+  const hours = Math.floor(durationInMinutes / 60);
+  const minutes = durationInMinutes % 60;
+
+  // Định dạng kết quả
+  const durationString = `${hours} tiếng ${minutes} phút`;
 
   return (
     <>
+      <BookingHeader
+        step={1}
+        departure={flightInfo.departure.airportCode}
+        arrival={flightInfo.arrival.airportCode}
+        amountPassenger={null}
+      />
+
       <div>
         <div className={`relative h-full  ${findFlights && "!pt-[20px] !pb-[35px]"}`}>
           <div
@@ -62,7 +147,9 @@ const page = ({ params }) => {
 
           <div className='absolute top-[30%] right-[35%] bg-white px-[30px] py-[20px] rounded-[10px] text-[#005F6E] text-center'>
             <h1 className='font-bold text-[22px] mb-[5px]'>Lựa chọn của quý khách</h1>
-            <h2 className='font-medium text-[20px]'>Hà Nội đến TP. Hồ Chí Minh</h2>
+            <h2 className='font-medium text-[20px]'>
+              {flightInfo.departure.city} đến {flightInfo.arrival.city}
+            </h2>
           </div>
         </div>
 
@@ -74,28 +161,30 @@ const page = ({ params }) => {
             }}
           >
             <div className='border-b-[1px] border-[#00648A] flex gap-2 pb-[10px]'>
-              <h4 className='font-semibold'>TP. Hồ Chí Minh đến Hà Nội</h4>
+              <h4 className='font-semibold'>
+                {flightInfo.departure.city} đến {flightInfo.arrival.city}
+              </h4>
               <span>-</span>
-              <span>Thứ Bảy, 12 tháng 10, 2024</span>
+              <span>{fullFormattedDepartureTime}</span>
             </div>
 
             <div className='grid grid-cols-12 w-full'>
               <div className='col-span-9 grid grid-cols-12 items-center my-0 h-[160px] '>
                 <div className='col-span-8  py-[10px] pr-[30px] ml-[8px] mr-[15px]'>
                   <div className='flex flex-row h-[21px] items-center justify-between'>
-                    <span className='text-[17px]'>05:00</span>
+                    <span className='text-[17px]'>{formattedDepartureTime}</span>
                     <div className='relative flex flex-col gap-1 items-center mx-[2px] justify-center h-[2rem] w-[205px]'>
                       <span className='absolute top-[0px] text-[12px]'>Bay thẳng</span>
                       <div className=''>
                         ...............................................................................................
                       </div>
                     </div>
-                    <span className='text-[17px]'>07:15</span>
+                    <span className='text-[17px]'>{formattedArrivalTime}</span>
                   </div>
 
                   <div className='flex flex-row justify-between'>
-                    <span className='text-[14px]'>HAN</span>
-                    <span className='text-[14px]'>SGN</span>
+                    <span className='text-[14px]'>{flightInfo.departure.airportCode}</span>
+                    <span className='text-[14px]'>{flightInfo.arrival.airportCode}</span>
                   </div>
 
                   <div className='flex flex-row justify-between'>
@@ -108,11 +197,11 @@ const page = ({ params }) => {
                   <div className='flex flex-col justify-between'>
                     <div className='flex items-center gap-2'>
                       <FaRegClock className='text-[12px]' />
-                      <span className='text-[12px]'>Thời gian bay 2 giờ 15 phút</span>
+                      <span className='text-[12px]'>Thời gian bay {durationString || "N/A"}</span>
                     </div>
                     <div className='flex items-center gap-2'>
                       <MdOutlineFlightTakeoff className='text-[12px]' />
-                      <span className='text-[12px]'>VN 205 Khai thác bởi Vietnam Airlines</span>
+                      <span className='text-[12px]'>{`${flightInfo.flightNumber} Hãng khai thác PTIT Airlines`}</span>
                     </div>
                     <span className='pt-[4px] text-[12px] underline px-[20px] text-[#00607d] hover:text-[#e6b441] cursor-pointer'>
                       Chi tiết hành trình
@@ -126,7 +215,9 @@ const page = ({ params }) => {
                 onClick={() => setExpandDetail(!expandDetail)}
               >
                 <div className='flex items-center justify-center gap-4 text-[#00648a]'>
-                  <span className='font-semibold'>Phổ thông tiết kiệm</span>
+                  <span className='font-semibold'>{`${
+                    flightClass === "economy" ? "Phổ thông tiết kiệm" : "Thương gia"
+                  }`}</span>
 
                   {expandDetail ? <FaChevronUp className='' /> : <FaChevronDown className='' />}
                 </div>
@@ -143,17 +234,21 @@ const page = ({ params }) => {
                       </h4>
 
                       <div className='relative grid grid-cols-12'>
-                        <span className='col-span-2'>2 giờ 15 phút</span>
+                        <span className='col-span-2'>{durationString || "N/A"}</span>
 
                         <div className='col-span-10'>
                           <div className='flex flex-col mb-[10px]'>
-                            <h4 className='text-[18px] font-semibold text-[#005F6E]'>16:00 TP. Hồ Chí Minh</h4>
+                            <h4 className='text-[18px] font-semibold text-[#005F6E]'>
+                              {formattedDepartureTime} {flightInfo.departure.city}
+                            </h4>
                             <p>Sân bay Tân Sơn Nhất, Việt Nam</p>
                             <p className='text-[12px]'>Nhà ga 1</p>
                           </div>
 
                           <div className='flex flex-col'>
-                            <h4 className='text-[18px] font-semibold text-[#005F6E]'>18:15Hà Nội</h4>
+                            <h4 className='text-[18px] font-semibold text-[#005F6E]'>
+                              {formattedArrivalTime} {flightInfo.arrival.city}
+                            </h4>
                             <p>Sân bay Nội Bài, Việt Nam</p>
                             <p className='text-[12px]'>Nhà ga 1</p>
                           </div>
@@ -166,7 +261,7 @@ const page = ({ params }) => {
 
                       <div className='mt-[15px]'>
                         <div className='text-[13px]'>
-                          <span>Số hiệu chuyến bay</span> <span className='font-bold'>VN 216</span>
+                          <span>Số hiệu chuyến bay</span> <span className='font-bold'>{flightInfo.flightNumber}</span>
                         </div>
                         <p className='text-[13px]'>Khai thác bởi Vietnam Airlines</p>
                         <p className='text-[13px]'>Boeing 787</p>
@@ -181,7 +276,9 @@ const page = ({ params }) => {
                       </h4>
 
                       <div className='border-l-[3px] border-[#D0D5DD] px-[20px]'>
-                        <p className='font-semibold text-center text-[#005F6E] '>Phổ Thông Tiết Kiệm</p>
+                        <p className='font-semibold text-center text-[#005F6E] '>{`${
+                          flightClass === "economy" ? "Phổ thông tiết kiệm" : "Thương gia"
+                        }`}</p>
 
                         <div className='flex gap-[6px] mb-[4px]'>
                           <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] border-[1px] flex items-center justify-center'>
@@ -259,11 +356,11 @@ const page = ({ params }) => {
           </div>
         </div>
 
-        <div className='w-[75%] my-[20px] mx-auto text-right '>
+        {/* <div className='w-[75%] my-[20px] mx-auto text-right '>
           <span className='text-[20px] text-[#005F6E]'>Tổng số tiền:</span>{" "}
           <span className='font-bold text-[24px] text-[#005F6E]'>2.134.000</span>{" "}
           <span className='text-[20px] text-[#005F6E]'>VND</span>
-        </div>
+        </div> */}
 
         <div className='w-[75%] my-[20px] mx-auto flex justify-end'>
           <Link
@@ -275,7 +372,7 @@ const page = ({ params }) => {
 
           {user ? (
             <Link
-              href={`/booking/traveler/${flight_id}`}
+              href={`/booking/traveler/${flight_id}?class=${flightClass}`}
               className='text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[10px] px-[15px] w-fit font-medium cursor-pointer'
             >
               TIẾP TỤC
