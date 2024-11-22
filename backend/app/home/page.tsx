@@ -15,6 +15,7 @@ import { HiOutlineTicket } from "react-icons/hi2";
 import { RiLuggageDepositFill } from "react-icons/ri";
 import { PiFlowerLotusBold } from "react-icons/pi";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { FlightDetails } from "../../util/interface";
 
 const popularFlights = [
   {
@@ -92,7 +93,7 @@ const page = (props: Props) => {
   const [key, setKey] = useState<string>("link-1");
   const [flightNumber, setFlightNumber] = useState("");
   const [ticketCode, setTicketCode] = useState("");
-  const [ticketDetail, setTicketDetail] = useState(null);
+  const [ticketDetail, setTicketDetail] = useState<FlightDetails | null>(null);
   const [expandDetail, setExpandDetail] = useState(false);
   const [fullFormattedDepartureTime, setFullFormattedDepartureTime] = useState("");
   const [formattedDepartureTime, setFormattedDepartureTime] = useState("");

@@ -43,13 +43,12 @@ export default function Home() {
   });
 
   useEffect(() => {
-    // Regular expression to capture time, type, and message
-    setEventList([]);
     const regex = /^\[(\d{2}:\d{2}:\d{2})\]\[(INFO|ERROR|SCHEDULE)\]: (.*?)(?:\r|\n)?$/;
 
     // Split logs by new lines to process each log entry
     const logEntries = logs.split("\n");
     console.log(logEntries);
+
     const parsedEvents = logEntries
       .map((logEntry) => {
         const match = logEntry.match(regex);
@@ -61,15 +60,11 @@ export default function Home() {
           if (message.includes("[Task scheduling]")) {
             type = "SCHEDULE"; // Change type to SCHEDULE if applicable
           }
-          if (message.includes("[Task scheduling]")) {
-            type = "SCHEDULE"; // Change type to SCHEDULE if applicable
-          }
-          // Check for API event specific message pattern
           if (message.includes("[200]")) {
-            type = "SUCCESS"; // Change type to API for specific messages
+            type = "SUCCESS"; // Change type to SUCCESS for API messages
           }
           if (message.includes("[409]")) {
-            type = "ABORT"; // Change type to API for specific messages
+            type = "ABORT"; // Change type to ABORT for specific error messages
           }
 
           // Clean up the message by removing ANSI escape codes
@@ -80,7 +75,7 @@ export default function Home() {
 
         return null; // Return null for non-matching entries
       })
-      .filter(Boolean); // Remove null entries
+      .filter((event): event is { time: string; type: string; message: string } => event !== null); // Filter out nulls explicitly
 
     console.log(parsedEvents);
     // Update event list state

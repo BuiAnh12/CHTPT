@@ -41,7 +41,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Tìm ghế khớp với `ticketCode` trong `purchasedBy`
     const seatData = flightData.seats
-      ? Object.entries(flightData.seats).find(([_, seatInfo]) => seatInfo.purchasedBy?.ticketCode === ticketCode)
+      ? Object.entries(flightData.seats).find(
+          ([_, seatInfo]) => (seatInfo as Seat).purchasedBy?.ticketCode === ticketCode
+        )
       : null;
 
     if (!seatData) {

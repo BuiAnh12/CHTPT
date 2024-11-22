@@ -1,13 +1,18 @@
+import { Props } from "next/script";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Props = {};
+// Define the shape of the context state
+type UserContextType = {
+  user: any; // Define a more specific type for `user` if needed
+  setUser: React.Dispatch<React.SetStateAction<any>>; // Define a type for `setUser` if needed
+};
 
-const UserContext = createContext();
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const UserProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<any | null>(null); // Replace `any` with a specific type if needed
 
-  // Load dữ liệu từ localStorage khi ứng dụng khởi động
+  // Load data from localStorage when the app starts
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -15,16 +20,23 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
-  // Cập nhật localStorage mỗi khi user thay đổi
+  // Update localStorage whenever `user` changes
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
     } else {
-      localStorage.removeItem("user"); // Xóa user khỏi localStorage nếu không có user
+      localStorage.removeItem("user"); // Remove user from localStorage if no user
     }
   }, [user]);
 
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
-export const useUser = () => useContext(UserContext);
+// Custom hook to use the user context
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+};
