@@ -4,6 +4,16 @@ export interface User {
   email: string;
 }
 
+export interface FlightDetails {
+  flightData: FlightInfo;
+  passengerDetails: {
+    passengerDetails: PassengerDetail;
+    purchasedBy: PurchaseInfo;
+    status: string;
+  };
+  seatid: string;
+}
+
 export interface FlightInfo {
   flightId?: string;
   arrival: LocationInfo;
@@ -45,8 +55,6 @@ export interface PassengerDetail {
   status: "free" | "register" | "purchase" | "locked";
 }
 
-export type SeatEntry = [string, Seat];
-
 interface RegistrationInfo {
   timestamp: string;
   userId: string;
@@ -69,3 +77,8 @@ interface PaymentInfo {
   amount: number;
   method: string;
 }
+
+type SeatGroup = [seatName: string, seatInfo: Seat][];
+
+// Định nghĩa kiểu cho row1
+export type RowType = SeatGroup[];

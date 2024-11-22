@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       const path = `flights/${flightid}/seats/${seatid}`;
       const result = await readData(path);
-      const update = await updateData(path);
 
       if (result) {
         return res.status(200).json(result);

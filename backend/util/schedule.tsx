@@ -101,7 +101,7 @@ export const reloadJob = async () => {
 
           if (timePassed < timeoutDuration) {
             // Schedule the seat reset with the remaining time
-            scheduleSeatReset(flightId, seatId, registerTime);
+            scheduleSeatReset(flightId, seatId, registerTime, seat.registeredBy);
             console.log(`Reloaded job for seat ${seatId} on flight ${flightId}.`);
           } else {
             // If timeout has already passed, reset the seat immediately

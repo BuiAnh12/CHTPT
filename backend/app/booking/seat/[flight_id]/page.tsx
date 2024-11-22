@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import io from "socket.io-client";
 import BookingHeader from "../../../../components/Header/BookingHeader";
 import { useParams, useSearchParams } from "next/navigation";
-import { FlightInfo, Seat, SeatEntry, User } from "../../../../util/interface";
+import { FlightInfo, RowType, Seat, User } from "../../../../util/interface";
 
 type Props = {};
 
@@ -42,8 +42,8 @@ const page = () => {
   const [allPassengersHaveSeatAndRegister, setAllPassengersHaveSeatAndRegister] = useState(false);
   const [formattedDepartureTime, setFormattedDepartureTime] = useState("");
   const [durationString, setDurationString] = useState("");
-  const [row1, setRow1] = useState<SeatEntry[]>([]);
-  const [row2, setRow2] = useState<SeatEntry[]>([]);
+  const [row1, setRow1] = useState<RowType>([]);
+  const [row2, setRow2] = useState<RowType>([]);
 
   const fetchFlightInfo = async () => {
     try {
@@ -146,8 +146,8 @@ const page = () => {
       const [firstRow, secondRow] = chunkArray(seatGroups, 32);
 
       // Flatten rows before setting the state
-      setRow1(firstRow.flat() || []); // Flattened to [string, Seat][]
-      setRow2(secondRow.flat() || []); // Flattened to [string, Seat][]
+      setRow1(firstRow);
+      setRow2(secondRow);
     }
 
     const now = new Date();
@@ -319,7 +319,10 @@ const page = () => {
 
   return (
     <>
-      {!isLoading || !flightInfo ? (
+      {!isLoading ||
+      !flightInfo ||
+      !(Array.isArray(row1) && row1.length > 0) ||
+      !(Array.isArray(row1) && row1.length > 0) ? (
         <div className='h-screen w-full flex items-center justify-center'>
           <Spinner animation='border' />
         </div>
@@ -348,15 +351,19 @@ const page = () => {
                     <span>B</span>
                     <span>C</span>
                   </div>
-                  {row1.map(([seatName, seatInfo], groupIndex) => (
+                  {row1?.map((group, groupIndex) => (
                     <div key={groupIndex} className='seats-triple'>
-                      <div
-                        key={seatName}
-                        className={`seat ${getSeatStatus(seatInfo)}`}
-                        onClick={() => handleSeatSelection(seatName, seatInfo)}
-                      ></div>
+                      {Array.isArray(group) &&
+                        group.map(([seatName, seatInfo]) => (
+                          <div
+                            key={seatName}
+                            className={`seat ${getSeatStatus(seatInfo)}`}
+                            onClick={() => handleSeatSelection(seatName, seatInfo)}
+                          ></div>
+                        ))}
                     </div>
                   ))}
+
                   <div className='absolute bottom-[-25px] left-[30px] flex gap-[35px]'>
                     <span>A</span>
                     <span>B</span>
@@ -369,13 +376,16 @@ const page = () => {
                     <span>E</span>
                     <span>F</span>
                   </div>
-                  {row2.map(([seatName, seatInfo], groupIndex) => (
-                    <div key={groupIndex} className='seats-triple'>
-                      <div
-                        key={seatName}
-                        className={`seat ${getSeatStatus(seatInfo)}`}
-                        onClick={() => handleSeatSelection(seatName, seatInfo)}
-                      ></div>
+                  {row2?.map((group, groupIndex) => (
+                    <div key={groupIndex} className='seats-triple' data-line={`${groupIndex + 1}`}>
+                      {Array.isArray(group) &&
+                        group.map(([seatName, seatInfo]) => (
+                          <div
+                            key={seatName}
+                            className={`seat ${getSeatStatus(seatInfo)}`}
+                            onClick={() => handleSeatSelection(seatName, seatInfo)}
+                          ></div>
+                        ))}
                     </div>
                   ))}
 
