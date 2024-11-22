@@ -1,4 +1,4 @@
-// pages/api/flight/[flightid]/seat/register/[seatid].ts
+// pages/api/flight/[flightid]/seat/reset/[seatid].ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { updateData, readData } from "../../../../../../util/firebase";
 
@@ -9,17 +9,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const path = `flights/${flightid}/seats/${seatid}`;
 
     try {
-      // Get current seat data
-      const seatData = await readData(path);
+      // // Get current seat data
+      // const seatData = await readData(path);
 
-      // Check if the seat status is 'register'
-      if (seatData.status === "purchase") {
-        return res.status(400).json({ error: "Cannot reset seat status; it has already been purchased." });
-      }
+      // // Check if the seat status is 'register'
+      // if (seatData.status === "purchase") {
+      //   return res.status(400).json({ error: "Cannot reset seat status; it has already been purchased." });
+      // }
 
-      if (seatData.status !== "register") {
-        return res.status(400).json({ error: "Seat is not in the register status." });
-      }
+      // if (seatData.status !== "register") {
+      //   return res.status(400).json({ error: "Seat is not in the register status." });
+      // }
 
       // Reset seat status to 'free'
       const updatedSeatData = {

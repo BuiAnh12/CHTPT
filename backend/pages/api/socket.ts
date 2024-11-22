@@ -65,10 +65,17 @@ export default function SocketHandler(req, res) {
           if (flight) {
             const seat = flight.seats[seatId];
             if (seat && seat.status === "free") {
+              const registerTime = new Date().toISOString();
+
               seat.status = "locked";
+              seat.lockedBy = { userId, timestamp: registerTime };
+              seat.passengerDetails = {
+                ...passengerDetails,
+                seatId,
+                status: "locked",
+              };
 
               // Emit update to all clients in the room
-              const registerTime = new Date().toISOString();
               io.to(flightId).emit("seatStatusUpdated", {
                 seatId,
                 status: "locked",
@@ -87,6 +94,14 @@ export default function SocketHandler(req, res) {
               setTimeout(() => {
                 if (seat.status === "locked") {
                   seat.status = "free";
+                  seat.lockedBy = null;
+                  seat.registeredBy = null;
+                  seat.passengerDetails = {
+                    ...passengerDetails,
+                    seatId: null,
+                    status: "free",
+                  };
+
                   io.to(flightId).emit("seatStatusUpdated", {
                     seatId,
                     status: "free",
@@ -113,6 +128,14 @@ export default function SocketHandler(req, res) {
             const seat = flight.seats[seatId];
             if ((seat && seat.status === "locked") || (seat && seat.status === "register")) {
               seat.status = "free";
+              seat.lockedBy = null;
+              seat.registeredBy = null;
+              seat.passengerDetails = {
+                ...passengerDetails,
+                seatId: null,
+                status: "free",
+              };
+
               io.to(flightId).emit("seatStatusUpdated", {
                 seatId,
                 status: "free",
@@ -144,6 +167,16 @@ export default function SocketHandler(req, res) {
             const seat = flight.seats[seatId];
             if (seat && seat.status === "locked") {
               seat.status = "register";
+              seat.lockedBy = null;
+              seat.registeredBy = {
+                userId,
+                timestamp: registerTime,
+              };
+              seat.passengerDetails = {
+                ...passengerDetails,
+                seatId: null,
+                status: "register",
+              };
 
               // Emit update to all clients in the room
               io.to(flightId).emit("seatStatusUpdated", {
@@ -161,7 +194,7 @@ export default function SocketHandler(req, res) {
               });
 
               // Schedule seat reset after timeout
-              const timeoutDuration = 60000 * 3;
+              const timeoutDuration = 60000 * 5;
               const timeoutTime = new Date(Date.parse(registerTime) + timeoutDuration);
 
               const job = schedule.scheduleJob(timeoutTime, async () => {
@@ -170,7 +203,14 @@ export default function SocketHandler(req, res) {
                 const updatedSeat = updatedFlight?.seats[seatId];
 
                 if (updatedSeat && updatedSeat.status === "register") {
-                  updatedSeat.status = "free"; // Reset to "free"
+                  updatedSeat.status = "free";
+                  seat.lockedBy = null;
+                  seat.registeredBy = null;
+                  seat.passengerDetails = {
+                    ...passengerDetails,
+                    seatId: null,
+                    status: "free",
+                  };
 
                   // Emit update to all clients in the room
                   io.to(flightId).emit("seatStatusUpdated", {
@@ -196,9 +236,44 @@ export default function SocketHandler(req, res) {
           }
         });
 
-        socket.on("seatCanceled", (data) => {
-          // Emit the update to all other clients
-          io.emit("seatStatusUpdate", data);
+        socket.on("seatPurchased", ({ flightId, seatId, userId, passengerDetails, paymentInfo }) => {
+          const flight = flights[flightId];
+          if (flight) {
+            const seat = flight.seats[seatId];
+            if (seat && seat.status === "register") {
+              const registerTime = new Date().toISOString();
+
+              seat.status = "purchase";
+              seat.lockedBy = null;
+              seat.registeredBy = null;
+              seat.purchasedBy = {
+                userId,
+                timestamp: registerTime,
+                paymentInfo,
+              };
+              seat.passengerDetails = {
+                ...passengerDetails,
+                seatId,
+                status: "purchase",
+              };
+
+              // Emit update to all clients in the room
+              io.to(flightId).emit("seatStatusUpdated", {
+                seatId,
+                status: "purchase",
+                purchasedBy: {
+                  userId,
+                  timestamp: registerTime,
+                  paymentInfo,
+                },
+                passengerDetails: {
+                  ...passengerDetails,
+                  seatId,
+                  status: "purchase",
+                },
+              });
+            }
+          }
         });
 
         socket.on("disconnect", () => {

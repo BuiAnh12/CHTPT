@@ -4,9 +4,17 @@ import Hero from "../../components/Hero";
 import { Col, Nav, Row, Tab } from "react-bootstrap";
 import { IoAirplane } from "react-icons/io5";
 import { VscNotebook } from "react-icons/vsc";
-import { MdAirplaneTicket } from "react-icons/md";
+import { MdAirplaneTicket, MdLuggage, MdOutlineFlightTakeoff } from "react-icons/md";
 import FindTicketModal from "../../components/FindTicketModal";
 import Slider from "../../components/NewsSlider";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { FaChevronDown, FaChevronUp, FaRegClock } from "react-icons/fa6";
+import { TiTicket } from "react-icons/ti";
+import { HiOutlineTicket } from "react-icons/hi2";
+import { RiLuggageDepositFill } from "react-icons/ri";
+import { PiFlowerLotusBold } from "react-icons/pi";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const popularFlights = [
   {
@@ -82,10 +90,107 @@ type Props = {};
 
 const page = (props: Props) => {
   const [key, setKey] = useState<string>("link-1");
+  const [flightNumber, setFlightNumber] = useState("");
+  const [ticketCode, setTicketCode] = useState("");
+  const [ticketDetail, setTicketDetail] = useState(null);
+  const [expandDetail, setExpandDetail] = useState(false);
+  const [fullFormattedDepartureTime, setFullFormattedDepartureTime] = useState("");
+  const [formattedDepartureTime, setFormattedDepartureTime] = useState("");
+  const [formattedArrivalTime, setFormattedArrivalTime] = useState("");
+  const [durationString, setDurationString] = useState("");
 
   useEffect(() => {
     localStorage.removeItem("passengerDetails");
   }, []);
+
+  const handleSearch = async () => {
+    if (flightNumber && ticketCode && flightNumber.length > 0 && ticketCode.length > 0) {
+      try {
+        const res = await axios.post(`/api/flight/get/`, {
+          flightNumber,
+          ticketCode,
+        });
+
+        if (res.status === 200) {
+          setTicketDetail(res.data);
+          console.log(res.data); // Xử lý kết quả trả về
+        } else {
+          toast.error("Không tìm thấy vé");
+        }
+      } catch (error) {
+        toast.error("Không tìm thấy vé");
+      }
+    } else {
+      toast.error("Vui lòng nhập mã máy bay và mã số vé để tìm kiếm");
+    }
+  };
+
+  useEffect(() => {
+    if (ticketDetail) {
+      const departureTime = new Date(ticketDetail?.flightData?.departure?.time);
+      const arrivalTime = new Date(ticketDetail?.flightData?.arrival?.time);
+
+      const fullFormattedDeparture = departureTime
+        .toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC",
+        })
+        .replace(",", "");
+
+      setFullFormattedDepartureTime(fullFormattedDeparture);
+
+      const formattedDeparture = departureTime
+        .toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "UTC",
+        })
+        .replace(",", "");
+
+      setFormattedDepartureTime(formattedDeparture);
+
+      const formattedArrival = arrivalTime
+        .toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "UTC",
+        })
+        .replace(",", "");
+
+      setFormattedArrivalTime(formattedArrival);
+
+      // Tính toán khoảng thời gian
+      const durationInMilliseconds = arrivalTime.getTime() - departureTime.getTime();
+      const durationInMinutes = Math.floor(durationInMilliseconds / 1000 / 60);
+
+      // Chuyển đổi thành giờ và phút
+      const hours = Math.floor(durationInMinutes / 60);
+      const minutes = durationInMinutes % 60;
+
+      // Định dạng kết quả
+      const duration = `${hours} tiếng ${minutes} phút`;
+      setDurationString(duration);
+    }
+  }, [ticketDetail]);
+
+  const handleCancelSeat = async (flight_id, seatId) => {
+    const isConfirmed = window.confirm("Bạn có chắc chắn muốn hoàn vé này không?");
+    if (isConfirmed) {
+      try {
+        const res = await axios.post(`/api/flight/${flight_id}/seat/reset/${seatId}`);
+        toast.success("Hoàn vé thành công!");
+        setTicketDetail(null);
+      } catch (error) {
+        toast.error("Hoàn vé thất bại!");
+      }
+    } else {
+      toast.success("Bạn đã hủy thao tác hoàn vé.");
+    }
+  };
 
   return (
     <>
@@ -142,42 +247,277 @@ const page = (props: Props) => {
                     <FindTicketModal />
                   </Tab.Pane>
                   <Tab.Pane eventKey='link-2'>
-                    <button className='bg-[#0980A0] text-[#fff] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
+                    {/* <button className='bg-[#0980A0] text-[#fff] py-[6px] px-[25px] border-[1px] border-[#ccc] hover:bg-[#0980A0] hover:text-[#fff] rounded-[30px] text-[13px] w-fit my-[10px] cursor-pointer'>
                       Mã đặt chỗ/Số vé điện tử
-                    </button>
+                    </button> */}
                     <div className='mb-[30px] flex items-center gap-3 w-full'>
                       <div className='relative w-[40%]'>
                         <input
-                          id='city-from-roundtrip'
+                          id='flightNumber'
+                          onChange={(e) => {
+                            setFlightNumber(e.target.value);
+                          }}
                           type='text'
                           className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
                         />
                         <label
-                          htmlFor='city-from-roundtrip'
+                          htmlFor='flightNumber'
                           className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'
                         >
-                          Mã đặt chỗ/Số vé điện tử
+                          Mã máy bay
                         </label>
                       </div>
 
                       <div className='relative w-[40%]'>
                         <input
-                          id='city-from-roundtrip'
+                          id='ticketCode'
+                          onChange={(e) => {
+                            setTicketCode(e.target.value);
+                          }}
                           type='text'
                           className='border-b-[1px] border-[#333] bg-[#fbf9f2] h-[40px] text-[#000] line-clamp-1 pl-[9px] pr-[35px] pt-[15px] pb-[6px] outline-none w-full'
                         />
                         <label
-                          htmlFor='city-from-roundtrip'
+                          htmlFor='ticketCode'
                           className='absolute top-[3px] left-[10px] text-[#333232] text-[10px]'
                         >
-                          Họ
+                          Mã số vé
                         </label>
                       </div>
 
-                      <button className='w-[160px] h-[40px] rounded-[4px] text-[#000] bg-[#e6b441] hover:bg-[#fff] border-[2px] border-[#e6b441]'>
+                      <button
+                        className='w-[160px] h-[40px] rounded-[4px] text-[#000] bg-[#e6b441] hover:bg-[#fff] border-[2px] border-[#e6b441]'
+                        onClick={() => handleSearch()}
+                      >
                         <span className='font-semibold'>TÌM KIẾM</span>
                       </button>
                     </div>
+
+                    {ticketDetail && (
+                      <div
+                        className=' rounded-[15px] overflow-hidden px-[20px] pt-[20px] bg-[#fff]'
+                        style={{
+                          boxShadow: "rgba(0, 0, 0, 0.176) -2px 0px 12px",
+                        }}
+                      >
+                        <div className='border-b-[1px] border-[#00648A] flex justify-between gap-2 pb-[10px]'>
+                          <div className='flex'>
+                            <h4 className='font-semibold'>
+                              {ticketDetail?.flightData?.departure.city} đến {ticketDetail?.flightData?.arrival.city}
+                            </h4>
+                            <span>-</span>
+                            <span>{fullFormattedDepartureTime}</span>
+                          </div>
+
+                          <button
+                            className='w-[160px] h-[40px] rounded-[4px] text-[#FFF] bg-[#e64141] hover:bg-[#d83939] border-[2px] border-[#7e1d1d]'
+                            onClick={() => handleCancelSeat(ticketDetail?.flightData?.flightId, ticketDetail?.seatid)}
+                          >
+                            <span className='font-semibold'>HOÀN VÉ</span>
+                          </button>
+                        </div>
+
+                        <div className='grid grid-cols-12 w-full'>
+                          <div className='col-span-9 grid grid-cols-12 items-center my-0 h-[160px] '>
+                            <div className='col-span-8  py-[10px] pr-[30px] ml-[8px] mr-[15px]'>
+                              <div className='flex flex-row h-[21px] items-center justify-between'>
+                                <span className='text-[17px] mb-[15px]'>{formattedDepartureTime}</span>
+                                <div className='relative flex flex-col gap-1 items-center mx-[2px] justify-center h-[2rem] w-[205px]'>
+                                  <span className='absolute top-[0px] text-[12px]'>Bay thẳng</span>
+                                  <div className=''>
+                                    ...............................................................................................
+                                  </div>
+                                </div>
+                                <span className='text-[17px] mb-[15px]'>{formattedArrivalTime}</span>
+                              </div>
+
+                              <div className='flex flex-row justify-between'>
+                                <span className='text-[14px]'>{ticketDetail?.flightData.departure.airportCode}</span>
+                                <span className='text-[14px]'>{ticketDetail?.flightData.arrival.airportCode}</span>
+                              </div>
+
+                              <div className='flex flex-row justify-between'>
+                                <span className='text-[14px] text-[#0062a9]'>Nhà ga 1</span>
+                                <span className='text-[14px] text-[#0062a9]'>Nhà ga 1</span>
+                              </div>
+                            </div>
+
+                            <div className='col-span-4  py-[10px] pr-[30px] ml-[8px] mr-[15px]'>
+                              <div className='flex flex-col justify-between'>
+                                <div className='flex items-center gap-2'>
+                                  <FaRegClock className='text-[12px]' />
+                                  <span className='text-[12px]'>Thời gian bay {durationString || "N/A"}</span>
+                                </div>
+                                <div className='flex items-center gap-2'>
+                                  <MdOutlineFlightTakeoff className='text-[12px]' />
+                                  <span className='text-[12px]'>{`${ticketDetail?.flightData.flightNumber} Hãng khai thác PTIT Airlines`}</span>
+                                </div>
+
+                                <span className='pt-[4px] text-[12px] underline px-[20px] text-[#00607d] hover:text-[#e6b441] cursor-pointer'>
+                                  Chi tiết hành trình
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div
+                            className='col-span-3 bg-[#fff] flex items-center justify-center cursor-pointer'
+                            onClick={() => setExpandDetail(!expandDetail)}
+                          >
+                            <div className='flex items-center justify-center gap-4 text-[#00648a]'>
+                              <span className='font-semibold'>{`${
+                                ticketDetail?.flightData.economyPrice ==
+                                ticketDetail?.passengerDetails.purchasedBy.paymentInfo.amount
+                                  ? "Phổ thông tiết kiệm"
+                                  : "Thương gia"
+                              }`}</span>
+
+                              {expandDetail ? <FaChevronUp className='' /> : <FaChevronDown className='' />}
+                            </div>
+                          </div>
+                        </div>
+
+                        {expandDetail && (
+                          <div className=' h-full text-[#222222] flex flex-col'>
+                            <div className='grid grid-cols-12 w-full h-full'>
+                              <div className='col-span-6'>
+                                <div className='w-full  pb-[10px] pt-[15px]'>
+                                  <h4 className='font-bold text-[18px] text-center text-[#005F6E] py-[10px]'>
+                                    Chi tiết hành trình
+                                  </h4>
+
+                                  <div className='relative grid grid-cols-12'>
+                                    <span className='col-span-2'>{durationString || "N/A"}</span>
+
+                                    <div className='col-span-10 pl-[10px]'>
+                                      <div className='flex flex-col mb-[10px]'>
+                                        <h4 className='text-[18px] font-semibold text-[#005F6E]'>
+                                          {formattedDepartureTime} {ticketDetail?.flightData.departure.city}
+                                        </h4>
+                                        <p>Sân bay Tân Sơn Nhất, Việt Nam</p>
+                                        <p className='text-[12px]'>Nhà ga 1</p>
+                                      </div>
+
+                                      <div className='flex flex-col'>
+                                        <h4 className='text-[18px] font-semibold text-[#005F6E]'>
+                                          {formattedArrivalTime} {ticketDetail?.flightData.arrival.city}
+                                        </h4>
+                                        <p>Sân bay Nội Bài, Việt Nam</p>
+                                        <p className='text-[12px]'>Nhà ga 1</p>
+                                      </div>
+                                    </div>
+
+                                    <div className='absolute top-[0px] left-[65px] w-[3px] h-[135px] bg-[#005572]'></div>
+                                    <div className='absolute top-[-8px] left-[64px] w-[5px] h-[5px] rounded-full bg-[#005572]'></div>
+                                    <div className='absolute bottom-[-8px] left-[64px] w-[5px] h-[5px] rounded-full bg-[#005572]'></div>
+                                  </div>
+
+                                  <div className='mt-[15px]'>
+                                    <div className='text-[13px]'>
+                                      <span>Số hiệu chuyến bay</span>{" "}
+                                      <span className='font-bold'>{ticketDetail?.flightData.flightNumber}</span>
+                                    </div>
+                                    <p className='text-[13px]'>Khai thác bởi Vietnam Airlines</p>
+                                    <p className='text-[13px]'>Boeing 787</p>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className='col-span-6'>
+                                <div className='w-full   pb-[10px] pt-[15px]'>
+                                  <h4 className='font-bold text-[18px] text-center text-[#005F6E] py-[10px]'>
+                                    Giá vé của Quý khách
+                                  </h4>
+
+                                  <div className='border-l-[3px] border-[#D0D5DD] px-[20px]'>
+                                    <span className='font-semibold'>{`${
+                                      ticketDetail?.flightData.economyPrice ==
+                                      ticketDetail?.passengerDetails.purchasedBy.paymentInfo.amount
+                                        ? "Phổ thông tiết kiệm"
+                                        : "Thương gia"
+                                    }`}</span>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] border-[1px] flex items-center justify-center'>
+                                        <TiTicket className='text-[#275e6c] text-[20px] ' />
+                                      </div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[13px]'>Thay đổi vé</span>
+                                        <span className='text-[13px]'>
+                                          Phí đổi vé tối đa 1.000.000 VND mỗi hành khách
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] flex items-center justify-center'>
+                                        <HiOutlineTicket className='text-[#275e6c] text-[20px]' />
+                                      </div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[13px]'>Hoàn vé</span>
+                                        <span className='text-[13px]'>
+                                          Phí hoàn vé tối đa 1.000.000 VND mỗi hành khách
+                                        </span>
+                                      </div>
+                                    </div>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] flex items-center justify-center'>
+                                        <MdLuggage className='text-[#275e6c] text-[20px] ' />
+                                      </div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[13px]'>Hành lý ký gửi</span>
+                                        <span className='text-[13px]'>1 x 23 kg</span>
+                                      </div>
+                                    </div>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] flex items-center justify-center'>
+                                        <RiLuggageDepositFill className='text-[#275e6c] text-[20px] ' />
+                                      </div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[13px]'>Hành lý xách tay</span>
+                                        <span className='text-[13px]'>Không quá 12 kg</span>
+                                      </div>
+                                    </div>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] flex items-center justify-center'>
+                                        <PiFlowerLotusBold className='text-[#275e6c] text-[20px] ' />
+                                      </div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[13px]'>Số dặm đạt được</span>
+                                        <span className='text-[13px]'>Tích lũy 60% số dặm</span>
+                                      </div>
+                                    </div>
+
+                                    <div className='flex gap-[6px] mb-[4px]'>
+                                      <div className='size-[20px] rounded-full border-[#275e6c] px-[2px] py-[1px] flex items-center justify-center'></div>
+                                      <div className='flex flex-col'>
+                                        <span className='font-bold text-[16px]'>
+                                          Tổng cộng:{" "}
+                                          {ticketDetail?.passengerDetails.purchasedBy.paymentInfo.amount.toLocaleString(
+                                            "vi-VN"
+                                          )}{" "}
+                                          VND
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              className='w-full border-t-[1px] border-[#00607d]'
+                              onClick={() => setExpandDetail(false)}
+                            >
+                              <FaChevronUp className='text-[18px]  my-[10px] text-center w-full block cursor-pointer' />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </Tab.Pane>
                   <Tab.Pane eventKey='link-3'>
                     <span className='text-[#006885] text-[14px] mb-[10px]'>

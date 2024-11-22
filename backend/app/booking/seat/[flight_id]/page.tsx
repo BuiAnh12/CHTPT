@@ -12,54 +12,9 @@ import { useRouter } from "next/navigation";
 import io from "socket.io-client";
 import BookingHeader from "../../../../components/Header/BookingHeader";
 import { useParams, useSearchParams } from "next/navigation";
+import { FlightInfo, Seat, SeatEntry, User } from "../../../../util/interface";
 
 type Props = {};
-
-export interface FlightInfo {
-  arrival: LocationInfo;
-  departure: LocationInfo;
-  flightNumber: string;
-  seats: Seats;
-}
-
-interface LocationInfo {
-  airportCode: string;
-  city: string;
-  time: string;
-}
-
-interface Seats {
-  [seatNumber: string]: Seat;
-}
-
-interface Seat {
-  status: "free" | "register" | "purchase" | "locked";
-  registeredBy?: RegistrationInfo;
-  purchasedBy?: PurchaseInfo;
-  lockedBy?: LockedInfo;
-}
-
-interface RegistrationInfo {
-  timestamp: string;
-  userId: string;
-}
-
-interface PurchaseInfo {
-  paymentInfo: PaymentInfo;
-  timestamp: string;
-  userId: string;
-}
-
-interface LockedInfo {
-  paymentInfo: PaymentInfo;
-  timestamp: string;
-  userId: string;
-}
-
-interface PaymentInfo {
-  amount: number;
-  method: string;
-}
 
 const socket = io({
   path: "/api/socket",
@@ -70,12 +25,11 @@ const page = () => {
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const flight_id = params.flight_id;
-  const flightClass = searchParams.get("class");
-  const { user } = useUser();
+  const flight_id = params!.flight_id;
+  const flightClass = searchParams!.get("class");
+  const { user } = useUser() as { user: User };
 
   const [flightInfo, setFlightInfo] = useState<FlightInfo | null>(null);
-
   const [passengerDetails, setPassengerDetails] = useState(() => {
     if (typeof window !== "undefined") {
       const storedInfo = localStorage.getItem("passengerDetails");
@@ -83,9 +37,13 @@ const page = () => {
     }
     return [{}];
   });
-
+  const [isLoading, setIsLoading] = useState(false);
   const [allPassengersHaveSeat, setAllPassengersHaveSeat] = useState(false);
   const [allPassengersHaveSeatAndRegister, setAllPassengersHaveSeatAndRegister] = useState(false);
+  const [formattedDepartureTime, setFormattedDepartureTime] = useState("");
+  const [durationString, setDurationString] = useState("");
+  const [row1, setRow1] = useState<SeatEntry[]>([]);
+  const [row2, setRow2] = useState<SeatEntry[]>([]);
 
   const fetchFlightInfo = async () => {
     try {
@@ -113,18 +71,16 @@ const page = () => {
   }, [flight_id]);
 
   useEffect(() => {
-    socket.on("seatStatusUpdated", ({ seatId, status, lockedBy, registeredBy, passengerDetails }) => {
+    socket.on("seatStatusUpdated", ({ seatId, status, lockedBy, registeredBy, purchasedBy, passengerDetails }) => {
       // Update flight information
       setFlightInfo((prevInfo) => {
         if (!prevInfo) return null;
         const updatedSeats = {
           ...prevInfo.seats,
-          [seatId]: { ...prevInfo.seats[seatId], status, lockedBy, registeredBy, passengerDetails },
+          [seatId]: { ...prevInfo.seats[seatId], status, lockedBy, registeredBy, purchasedBy, passengerDetails },
         };
         return { ...prevInfo, seats: updatedSeats };
       });
-
-      // Update passenger details
 
       // Update passenger details
       setPassengerDetails((prevDetails) => {
@@ -146,6 +102,54 @@ const page = () => {
   }, []);
 
   useEffect(() => {
+    if (flightInfo) {
+      setIsLoading(true);
+
+      const departureTime = new Date(flightInfo.departure.time);
+      const arrivalTime = new Date(flightInfo.arrival.time);
+
+      const formattedTime = departureTime
+        .toLocaleString("vi-VN", {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC",
+        })
+        .replace(",", "");
+
+      setFormattedDepartureTime(formattedTime);
+
+      // Tính toán khoảng thời gian
+      const durationInMilliseconds = arrivalTime.getTime() - departureTime.getTime();
+      const durationInMinutes = Math.floor(durationInMilliseconds / 1000 / 60);
+      const hours = Math.floor(durationInMinutes / 60);
+      const minutes = durationInMinutes % 60;
+
+      const duration = `${hours} tiếng ${minutes} phút`;
+      setDurationString(duration);
+
+      // Chia thành các nhóm ghế
+      const chunkArray = <T,>(arr: T[], chunkSize: number): T[][] => {
+        const chunks: T[][] = [];
+        for (let i = 0; i < arr.length; i += chunkSize) {
+          chunks.push(arr.slice(i, i + chunkSize));
+        }
+        return chunks;
+      };
+
+      const seatEntries = Object.entries(flightInfo.seats); // [string, Seat][]
+      const seatGroups = chunkArray(seatEntries, 3); // Groups of 3 seats: [string, Seat][][]
+
+      // Chunk into rows
+      const [firstRow, secondRow] = chunkArray(seatGroups, 32);
+
+      // Flatten rows before setting the state
+      setRow1(firstRow.flat() || []); // Flattened to [string, Seat][]
+      setRow2(secondRow.flat() || []); // Flattened to [string, Seat][]
+    }
+
     const now = new Date();
     const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
     console.log(`Updated flightInfo at ${time}:`, flightInfo);
@@ -170,54 +174,6 @@ const page = () => {
 
     localStorage.setItem("passengerDetails", JSON.stringify(passengerDetails));
   }, [passengerDetails]);
-
-  if (!flightInfo) {
-    return (
-      <div className='h-screen w-full flex items-center justify-center'>
-        <Spinner animation='border' />
-      </div>
-    );
-  }
-
-  const departureTime = new Date(flightInfo?.departure?.time);
-  const arrivalTime = new Date(flightInfo.arrival.time);
-
-  const formattedDepartureTime = departureTime
-    .toLocaleString("vi-VN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-      timeZone: "UTC",
-    })
-    .replace(",", "");
-
-  // Tính toán khoảng thời gian
-  const durationInMilliseconds = arrivalTime - departureTime;
-  const durationInMinutes = Math.floor(durationInMilliseconds / 1000 / 60);
-
-  // Chuyển đổi thành giờ và phút
-  const hours = Math.floor(durationInMinutes / 60);
-  const minutes = durationInMinutes % 60;
-
-  // Định dạng kết quả
-  const durationString = `${hours} tiếng ${minutes} phút`;
-
-  const chunkArray = (arr, chunkSize) => {
-    const chunks = [];
-    for (let i = 0; i < arr.length; i += chunkSize) {
-      chunks.push(arr.slice(i, i + chunkSize));
-    }
-    return chunks;
-  };
-
-  // Convert seat data to an array of [seatName, seatInfo] pairs and group by 3 seats each
-  const seatEntries = Object.entries(flightInfo.seats);
-  const seatGroups = chunkArray(seatEntries, 3); // Groups of 3 seats
-
-  // Now divide the 3-seat groups into 2 main rows of 32 groups each
-  const [row1, row2] = chunkArray(seatGroups, 32); // Two main rows with 32 groups each
 
   const handleSeatSelection = (seatId: string, seatInfo: Seat) => {
     if (allPassengersHaveSeatAndRegister) {
@@ -343,15 +299,15 @@ const page = () => {
     if (seatInfo.status === "free") {
       return "";
     } else {
-      if (seatInfo.purchasedBy) {
+      if (seatInfo.status === "purchase") {
         return "already";
-      } else if (seatInfo.registeredBy) {
+      } else if (seatInfo.status === "register") {
         if (seatInfo.registeredBy.userId === user.userId) {
           return "active";
         } else {
           return "already";
         }
-      } else if (seatInfo.lockedBy) {
+      } else if (seatInfo.status === "locked") {
         if (seatInfo.lockedBy.userId === user.userId) {
           return "active";
         } else {
@@ -363,298 +319,304 @@ const page = () => {
 
   return (
     <>
-      <BookingHeader
-        step={3}
-        departure={flightInfo.departure.airportCode}
-        arrival={flightInfo.arrival.airportCode}
-        amountPassenger={passengerDetails.length}
-      />
-
-      <div className='w-[75%] my-[20px] mx-auto grid grid-cols-12'>
-        <div className='col-span-8 aircraft'>
-          <div className='relative aircraft-body'>
-            <div className='top-left-exists'>
-              <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-            </div>
-            <div className='top-right-exists'>
-              <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-            </div>
-
-            <div className='seats'>
-              <div className='absolute top-[-25px] left-[30px] flex gap-[35px]'>
-                <span>A</span>
-                <span>B</span>
-                <span>C</span>
-              </div>
-              {row1?.map((group, groupIndex) => (
-                <div key={groupIndex} className='seats-triple'>
-                  {group.map(([seatName, seatInfo]) => (
-                    <div
-                      key={seatName}
-                      className={`seat ${getSeatStatus(seatInfo)}`}
-                      onClick={() => handleSeatSelection(seatName, seatInfo)}
-                    ></div>
-                  ))}
-                </div>
-              ))}
-              <div className='absolute bottom-[-25px] left-[30px] flex gap-[35px]'>
-                <span>A</span>
-                <span>B</span>
-                <span>C</span>
-              </div>
-            </div>
-            <div className='seats'>
-              <div className='absolute top-[-25px] right-[30px] flex gap-[35px]'>
-                <span>D</span>
-                <span>E</span>
-                <span>F</span>
-              </div>
-              {row2?.map((group, groupIndex) => (
-                <div key={groupIndex} className='seats-triple' data-line={`${groupIndex + 1}`}>
-                  {group.map(([seatName, seatInfo]) => (
-                    <div
-                      key={seatName}
-                      className={`seat ${getSeatStatus(seatInfo)}`}
-                      onClick={() => handleSeatSelection(seatName, seatInfo)}
-                    ></div>
-                  ))}
-                </div>
-              ))}
-              <div className='absolute bottom-[-25px] right-[30px] flex gap-[35px]'>
-                <span>D</span>
-                <span>E</span>
-                <span>F</span>
-              </div>
-            </div>
-
-            <div className='bottom-left-exists'>
-              <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-            </div>
-            <div className='bottom-right-exists'>
-              <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-            </div>
-            <div className='aircraft-top-wing'>
-              <div className='exists'>
-                <div>
-                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-                </div>
-                <div>
-                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-                </div>
-              </div>
-            </div>
-            <div className='aircraft-bottom-wing'>
-              <div className='exists'>
-                <div>
-                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-                </div>
-                <div>
-                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-                </div>
-              </div>
-            </div>
-            <div className='aircraft-head'>
-              <div className='aircraft-head-body'>
-                <div className='windows'>
-                  <img alt='' src='https://i.ibb.co/F5hp29L/windows.png' />
-                </div>
-                {/* <div className='front-lavatory'>
-                <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
-              </div> */}
-              </div>
-            </div>
-            <div className='aircraft-tail'>
-              <div className='aircraft-tail-body'>
-                <div className='back-lavatory'>
-                  <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
-
-                  <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
-                </div>
-              </div>
-            </div>
-          </div>
+      {!isLoading || !flightInfo ? (
+        <div className='h-screen w-full flex items-center justify-center'>
+          <Spinner animation='border' />
         </div>
+      ) : (
+        <>
+          <BookingHeader
+            step={3}
+            departure={flightInfo.departure.airportCode}
+            arrival={flightInfo.arrival.airportCode}
+            amountPassenger={passengerDetails.length}
+          />
 
-        <div className='col-span-4'>
-          <div
-            className=' bg-white rounded-md overflow-hidden mb-[20px]'
-            style={{
-              boxShadow: "0 4px 8px rgba(0,0,0,.175)",
-            }}
-          >
-            <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px] m-0'>
-              Chi tiết chuyến bay
-            </h3>
+          <div className='w-[75%] my-[20px] mx-auto grid grid-cols-12'>
+            <div className='col-span-8 aircraft'>
+              <div className='relative aircraft-body'>
+                <div className='top-left-exists'>
+                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                </div>
+                <div className='top-right-exists'>
+                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                </div>
 
-            <div className=''>
-              <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
-                <div className='flex items-center gap-2'>
-                  <IoAirplaneSharp className='text-[#007390]' />
-                  <div className='flex items-center gap-1'>
-                    <span className='text-[13px]'>{flightInfo.departure.airportCode || "Unknown"}</span>
-                    <FaArrowRightLong className='text-[#007390]' />
-                    <span className='text-[13px]'>{flightInfo.arrival.airportCode || "Unknown"}</span>
+                <div className='seats'>
+                  <div className='absolute top-[-25px] left-[30px] flex gap-[35px]'>
+                    <span>A</span>
+                    <span>B</span>
+                    <span>C</span>
                   </div>
-                </div>
-
-                <div className='flex gap-1'>
-                  <span className='font-bold text-[17px] text-[#007390]'>{`${
-                    flightClass === "economy"
-                      ? (flightInfo.economyPrice - 608000).toLocaleString("vi-VN")
-                      : (flightInfo.businessPrice - 608000).toLocaleString("vi-VN")
-                  }`}</span>
-                  <span className='text-[13px] text-[#007390]'>VND</span>
-
-                  <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
-                </div>
-              </div>
-
-              <div className=''>
-                <div className='px-[10px] py-[6px] bg-[#fdfae9] flex gap-1'>
-                  <span className='font-bold text-[#007390]'>Khởi hành</span>
-                  <span>{formattedDepartureTime}</span>
-                </div>
-
-                <div className='p-[10px] flex flex-col'>
-                  <div className='flex items-center gap-1'>
-                    <span className='font-bold text-[14px]'>
-                      {flightInfo?.departure?.city || "Unknown"} ({flightInfo?.departure?.airportCode || "N/A"})
-                    </span>
-                    <FaArrowRightLong className='font-bold text-[14px]' />
-                    <span className='font-bold text-[14px]'>
-                      {flightInfo?.arrival?.city || "Unknown"} ({flightInfo?.arrival?.airportCode || "N/A"})
-                    </span>
-                  </div>
-                  <p className='text-[13px] my-[2px]'>Thời gian: {durationString || "N/A"} / Bay thẳng</p>
-                  <p className='text-[13px] my-[2px]'>{flightInfo?.flightNumber || "Unknown Flight Number"}</p>
-                  <p className='text-[13px] my-[2px] text-[#007390]'>Hãng khai thác PTIT Airlines</p>
-                </div>
-
-                <div className='px-[10px] py-[6px] bg-[#fdfae9] flex flex-col'>
-                  <div className='flex justify-between items-center'>
-                    <span className='font-bold text-[13px] text-[#007390]'>{`Hành khách x ${passengerDetails.length}`}</span>
-                    <span className=''>
-                      <span className='font-bold text-[17px] text-[#007390] mr-[4px]'>
-                        {flightClass === "economy"
-                          ? ((flightInfo.economyPrice - 608000) * passengerDetails.length).toLocaleString("vi-VN")
-                          : ((flightInfo.businessPrice - 608000) * passengerDetails.length).toLocaleString("vi-VN")}
-                      </span>
-                      <span className='text-[13px] text-[#007390]'>VND</span>
-                    </span>
-                  </div>
-                  {passengerDetails.map((passenger, index) => (
-                    <span
-                      key={index}
-                      className='text-[13px] uppercase'
-                    >{`${passenger.title} ${passenger.firstName}`}</span>
+                  {row1.map(([seatName, seatInfo], groupIndex) => (
+                    <div key={groupIndex} className='seats-triple'>
+                      <div
+                        key={seatName}
+                        className={`seat ${getSeatStatus(seatInfo)}`}
+                        onClick={() => handleSeatSelection(seatName, seatInfo)}
+                      ></div>
+                    </div>
                   ))}
+                  <div className='absolute bottom-[-25px] left-[30px] flex gap-[35px]'>
+                    <span>A</span>
+                    <span>B</span>
+                    <span>C</span>
+                  </div>
+                </div>
+                <div className='seats'>
+                  <div className='absolute top-[-25px] right-[30px] flex gap-[35px]'>
+                    <span>D</span>
+                    <span>E</span>
+                    <span>F</span>
+                  </div>
+                  {row2.map(([seatName, seatInfo], groupIndex) => (
+                    <div key={groupIndex} className='seats-triple'>
+                      <div
+                        key={seatName}
+                        className={`seat ${getSeatStatus(seatInfo)}`}
+                        onClick={() => handleSeatSelection(seatName, seatInfo)}
+                      ></div>
+                    </div>
+                  ))}
+
+                  <div className='absolute bottom-[-25px] right-[30px] flex gap-[35px]'>
+                    <span>D</span>
+                    <span>E</span>
+                    <span>F</span>
+                  </div>
+                </div>
+
+                <div className='bottom-left-exists'>
+                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                </div>
+                <div className='bottom-right-exists'>
+                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                </div>
+                <div className='aircraft-top-wing'>
+                  <div className='exists'>
+                    <div>
+                      <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                    </div>
+                    <div>
+                      <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                    </div>
+                  </div>
+                </div>
+                <div className='aircraft-bottom-wing'>
+                  <div className='exists'>
+                    <div>
+                      <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                    </div>
+                    <div>
+                      <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                    </div>
+                  </div>
+                </div>
+                <div className='aircraft-head'>
+                  <div className='aircraft-head-body'>
+                    <div className='windows'>
+                      <img alt='' src='https://i.ibb.co/F5hp29L/windows.png' />
+                    </div>
+                    {/* <div className='front-lavatory'>
+                  <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
+                </div> */}
+                  </div>
+                </div>
+                <div className='aircraft-tail'>
+                  <div className='aircraft-tail-body'>
+                    <div className='back-lavatory'>
+                      <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
+
+                      <img alt='' src='https://i.ibb.co/NVT4SZ1/lavatory.png' />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {passengerDetails.some((passenger) => passenger.seatId) && (
-              <div className=''>
-                <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
-                  <div className='flex items-center gap-2'>
-                    <MdAirlineSeatReclineExtra className='text-[#007390]' />
-                    <div className='flex items-center gap-1'>
-                      <span className='text-[13px]'>Chỗ ngồi</span>
+            <div className='col-span-4'>
+              <div
+                className=' bg-white rounded-md overflow-hidden mb-[20px]'
+                style={{
+                  boxShadow: "0 4px 8px rgba(0,0,0,.175)",
+                }}
+              >
+                <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px] m-0'>
+                  Chi tiết chuyến bay
+                </h3>
+
+                <div className=''>
+                  <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
+                    <div className='flex items-center gap-2'>
+                      <IoAirplaneSharp className='text-[#007390]' />
+                      <div className='flex items-center gap-1'>
+                        <span className='text-[13px]'>{flightInfo.departure.airportCode || "Unknown"}</span>
+                        <FaArrowRightLong className='text-[#007390]' />
+                        <span className='text-[13px]'>{flightInfo.arrival.airportCode || "Unknown"}</span>
+                      </div>
+                    </div>
+
+                    <div className='flex gap-1'>
+                      <span className='font-bold text-[17px] text-[#007390]'>{`${
+                        flightClass === "economy"
+                          ? (flightInfo.economyPrice - 608000).toLocaleString("vi-VN")
+                          : (flightInfo.businessPrice - 608000).toLocaleString("vi-VN")
+                      }`}</span>
+                      <span className='text-[13px] text-[#007390]'>VND</span>
+
+                      <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
                     </div>
                   </div>
 
-                  <div className='flex gap-1'>
-                    <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
-                  </div>
-                </div>
-                {passengerDetails.map(
-                  (passenger, index) =>
-                    passenger.seatId && (
-                      <div key={index} className='px-[10px] py-[4px] flex flex-row justify-between items-center'>
-                        <span className='font-bold text-[13px] my-[2px]'>{`${passenger.title} ${passenger.firstName} - Ghế: ${passenger.seatId}`}</span>
+                  <div className=''>
+                    <div className='px-[10px] py-[6px] bg-[#fdfae9] flex gap-1'>
+                      <span className='font-bold text-[#007390]'>Khởi hành</span>
+                      <span>{formattedDepartureTime}</span>
+                    </div>
+
+                    <div className='p-[10px] flex flex-col'>
+                      <div className='flex items-center gap-1'>
+                        <span className='font-bold text-[14px]'>
+                          {flightInfo?.departure?.city || "Unknown"} ({flightInfo?.departure?.airportCode || "N/A"})
+                        </span>
+                        <FaArrowRightLong className='font-bold text-[14px]' />
+                        <span className='font-bold text-[14px]'>
+                          {flightInfo?.arrival?.city || "Unknown"} ({flightInfo?.arrival?.airportCode || "N/A"})
+                        </span>
                       </div>
-                    )
-                )}
+                      <p className='text-[13px] my-[2px]'>Thời gian: {durationString || "N/A"} / Bay thẳng</p>
+                      <p className='text-[13px] my-[2px]'>{flightInfo?.flightNumber || "Unknown Flight Number"}</p>
+                      <p className='text-[13px] my-[2px] text-[#007390]'>Hãng khai thác PTIT Airlines</p>
+                    </div>
 
-                {allPassengersHaveSeatAndRegister && (
-                  <div
-                    className='text-[14px] text-[#fff] hover:text-[#e64141] bg-[#e64141] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e64141] py-[3px] px-[6px] my-[10px] mr-[10px] ml-auto flex items-end w-fit font-medium cursor-pointer'
-                    onClick={() => handleCancelSeat()}
-                  >
-                    HỦY CHỌN CHỖ
+                    <div className='px-[10px] py-[6px] bg-[#fdfae9] flex flex-col'>
+                      <div className='flex justify-between items-center'>
+                        <span className='font-bold text-[13px] text-[#007390]'>{`Hành khách x ${passengerDetails.length}`}</span>
+                        <span className=''>
+                          <span className='font-bold text-[17px] text-[#007390] mr-[4px]'>
+                            {flightClass === "economy"
+                              ? ((flightInfo.economyPrice - 608000) * passengerDetails.length).toLocaleString("vi-VN")
+                              : ((flightInfo.businessPrice - 608000) * passengerDetails.length).toLocaleString("vi-VN")}
+                          </span>
+                          <span className='text-[13px] text-[#007390]'>VND</span>
+                        </span>
+                      </div>
+                      {passengerDetails.map((passenger, index) => (
+                        <span
+                          key={index}
+                          className='text-[13px] uppercase'
+                        >{`${passenger.title} ${passenger.firstName}`}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {passengerDetails.some((passenger) => passenger.seatId) && (
+                  <div className=''>
+                    <div className='flex items-center justify-between px-[10px] py-[6px] bg-[#cce3e0] cursor-pointer'>
+                      <div className='flex items-center gap-2'>
+                        <MdAirlineSeatReclineExtra className='text-[#007390]' />
+                        <div className='flex items-center gap-1'>
+                          <span className='text-[13px]'>Chỗ ngồi</span>
+                        </div>
+                      </div>
+
+                      <div className='flex gap-1'>
+                        <FaAngleDown className='ml-[8px] mt-[4px] text-[#007390]' />
+                      </div>
+                    </div>
+                    {passengerDetails.map(
+                      (passenger, index) =>
+                        passenger.seatId && (
+                          <div key={index} className='px-[10px] py-[4px] flex flex-row justify-between items-center'>
+                            <span className='font-bold text-[13px] my-[2px]'>{`${passenger.title} ${passenger.firstName} - Ghế: ${passenger.seatId}`}</span>
+                          </div>
+                        )
+                    )}
+
+                    {allPassengersHaveSeatAndRegister && (
+                      <div
+                        className='text-[14px] text-[#fff] hover:text-[#e64141] bg-[#e64141] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e64141] py-[3px] px-[6px] my-[10px] mr-[10px] ml-auto flex items-end w-fit font-medium cursor-pointer'
+                        onClick={() => handleCancelSeat()}
+                      >
+                        HỦY CHỌN CHỖ
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
-          </div>
 
-          <div
-            className='bg-white rounded-md overflow-hidden'
-            style={{
-              boxShadow: "0 4px 8px rgba(0,0,0,.175)",
-            }}
-          >
-            <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px]'>
-              Xem chú giải
-            </h3>
+              <div
+                className='bg-white rounded-md overflow-hidden'
+                style={{
+                  boxShadow: "0 4px 8px rgba(0,0,0,.175)",
+                }}
+              >
+                <h3 className='font-semibold text-[20px] text-[#007390] border-b-[2px] border-[#0980A0] px-[10px] py-[15px]'>
+                  Xem chú giải
+                </h3>
 
-            <div className='flex flex-wrap gap-2 px-[10px] py-[15px]'>
-              <div className='flex flex-col items-center'>
-                <div className='h-[40px] flex items-center justify-center mb-[4px]'>
-                  <div className='seat active'></div>
+                <div className='flex flex-wrap gap-2 px-[10px] py-[15px]'>
+                  <div className='flex flex-col items-center'>
+                    <div className='h-[40px] flex items-center justify-center mb-[4px]'>
+                      <div className='seat active'></div>
+                    </div>
+                    <p className='text-[13px]'>Chỗ ngồi đã </p>
+                    <p className='text-[13px]'>chọn</p>
+                  </div>
+
+                  <div className='flex flex-col items-center'>
+                    <div className='h-[40px] flex items-center justify-center mb-[4px]'>
+                      <div className='seat'></div>
+                    </div>
+                    <p className='text-[13px]'>Chỗ ngồi còn</p>
+                    <p className='text-[13px]'>trống</p>
+                  </div>
+
+                  <div className='flex flex-col items-center'>
+                    <div className='h-[40px] flex items-center justify-center mb-[4px]'>
+                      <div className='seat already'></div>
+                    </div>
+                    <p className='text-[13px]'>Chỗ ngồi không còn</p>
+                    <p className='text-[13px]'>trống</p>
+                  </div>
+
+                  <div className='flex flex-col items-center'>
+                    <div className='h-[40px] flex items-center justify-center mb-[4px]'>
+                      <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
+                    </div>
+                    <p className='text-[13px]'>Lối thoát</p>
+                    <p className='text-[13px]'>hiểm</p>
+                  </div>
+
+                  <p className='text-[12px] text-red-400'>
+                    * Hành khách vui lòng chọn chỗ và nhấn vào nút "XÁC NHẬN VÀ TIẾP TỤC" nếu không sau 1 phút ghế sẽ bị
+                    hủy
+                  </p>
                 </div>
-                <p className='text-[13px]'>Chỗ ngồi đã </p>
-                <p className='text-[13px]'>chọn</p>
               </div>
 
-              <div className='flex flex-col items-center'>
-                <div className='h-[40px] flex items-center justify-center mb-[4px]'>
-                  <div className='seat'></div>
-                </div>
-                <p className='text-[13px]'>Chỗ ngồi còn</p>
-                <p className='text-[13px]'>trống</p>
-              </div>
+              <div className='my-[20px] flex justify-end'>
+                <Link
+                  href={`/booking/traveler/${flight_id}?class=${flightClass}`}
+                  className='mr-[10px] text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[10px] px-[25px] w-fit font-medium flex items-center justify-center'
+                >
+                  <FaArrowLeftLong />
+                </Link>
 
-              <div className='flex flex-col items-center'>
-                <div className='h-[40px] flex items-center justify-center mb-[4px]'>
-                  <div className='seat already'></div>
+                <div
+                  className={`text-[18px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[10px] px-[15px] w-fit font-medium cursor-pointer ${
+                    !allPassengersHaveSeat ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  onClick={() => handleConfirmSeat()}
+                >
+                  XÁC NHẬN VÀ TIẾP TỤC
                 </div>
-                <p className='text-[13px]'>Chỗ ngồi không còn</p>
-                <p className='text-[13px]'>trống</p>
               </div>
-
-              <div className='flex flex-col items-center'>
-                <div className='h-[40px] flex items-center justify-center mb-[4px]'>
-                  <img alt='' src='https://i.ibb.co/ftwgLCL/exist.png' />
-                </div>
-                <p className='text-[13px]'>Lối thoát</p>
-                <p className='text-[13px]'>hiểm</p>
-              </div>
-
-              <p className='text-[12px] text-red-400'>
-                * Hành khách vui lòng chọn chỗ và nhấn vào nút "XÁC NHẬN VÀ TIẾP TỤC" nếu không sau 1 phút ghế sẽ bị hủy
-              </p>
             </div>
           </div>
-
-          <div className='my-[20px] flex justify-end'>
-            <Link
-              href={`/booking/traveler/${flight_id}?class=${flightClass}`}
-              className='mr-[10px] text-[18px] text-[#005f6e] hover:text-[#fff] hover:bg-[#005f6e] rounded-[10px] border-[3px] border-[#005f6e] py-[10px] px-[25px] w-fit font-medium flex items-center justify-center'
-            >
-              <FaArrowLeftLong />
-            </Link>
-
-            <div
-              className={`text-[18px] text-[#222222] hover:text-[#e6b441] bg-[#e6b441] hover:bg-[#fff] rounded-[10px] border-[3px] border-[#e6b441] py-[10px] px-[15px] w-fit font-medium cursor-pointer ${
-                !allPassengersHaveSeat ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              onClick={() => handleConfirmSeat()}
-            >
-              XÁC NHẬN VÀ TIẾP TỤC
-            </div>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
     </>
   );
 };

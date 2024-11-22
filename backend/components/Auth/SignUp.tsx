@@ -31,6 +31,7 @@ const SignUp = ({ setOpenLogin, setOpenSignUp }) => {
       setOpenLogin(true);
       setOpenSignUp(false);
     } catch (error) {
+      toast.error("Đã có lỗi xảy ra");
       console.error("Error during registration:", error);
     }
   };
@@ -76,21 +77,23 @@ const SignUp = ({ setOpenLogin, setOpenSignUp }) => {
           {errors.name && touched.name && <span className='text-red-500 pt-2 block'>{errors.name}</span>}
         </div>
 
-        <label className={`${styles.label}`} htmlFor='email'>
-          Email
-        </label>
-        <input
-          type='email'
-          name='email'
-          value={values.email}
-          onChange={handleChange}
-          id='email'
-          placeholder=''
-          className={`${errors.email && touched.email && "border-red-500"}
+        <div className='mb-3'>
+          <label className={`${styles.label}`} htmlFor='email'>
+            Email
+          </label>
+          <input
+            type='email'
+            name='email'
+            value={values.email}
+            onChange={handleChange}
+            id='email'
+            placeholder=''
+            className={`${errors.email && touched.email && "border-red-500"}
           ${styles.input}
           `}
-        />
-        {errors.email && touched.email && <span className='text-red-500 pt-2 block'>{errors.email}</span>}
+          />
+          {errors.email && touched.email && <span className='text-red-500 pt-2 block'>{errors.email}</span>}
+        </div>
 
         <div className='w-full relative mb-1'>
           <label className={`${styles.label}`} htmlFor='password'>
@@ -123,7 +126,11 @@ const SignUp = ({ setOpenLogin, setOpenSignUp }) => {
         </div>
         {errors.password && touched.password && <span className='text-red-500 pt-2 block'>{errors.password}</span>}
         <div className='w-full mt-5'>
-          <input type='submit' value='Đăng ký' className={`${styles.button} hover:bg-[#0077b9] text-white`} />
+          <input
+            type='submit'
+            value='Đăng ký'
+            className={`${styles.button} !bg-[#005a8c] hover:bg-[#0077b9] text-white`}
+          />
         </div>
 
         {/* <br />

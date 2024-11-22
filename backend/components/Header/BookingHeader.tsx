@@ -46,7 +46,7 @@ const BookingHeader = ({ step, departure, arrival, amountPassenger }) => {
               </Link>
             </div>
 
-            {user ? (
+            {/* {user ? (
               <div className='flex items-center gap-3'>
                 <div className='relative ml-4'>
                   <Image
@@ -99,7 +99,7 @@ const BookingHeader = ({ step, departure, arrival, amountPassenger }) => {
                   }}
                 />
               </div>
-            )}
+            )} */}
           </div>
         </div>
 
