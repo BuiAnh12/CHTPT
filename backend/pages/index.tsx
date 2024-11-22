@@ -10,7 +10,7 @@ export default function Home() {
   const [logs, setLogs] = useState<string>("");
   const [timeoutValue, setTimeoutValue] = useState<number>(getTimeOut()); // Initial timeout value
   const [apiResponse, setApiResponse] = useState<string>("");
-  const [eventList, setEventList] = useState<{ time: string, type: string; message: string }[]>([]);
+  const [eventList, setEventList] = useState<{ time: string; type: string; message: string }[]>([]);
 
   useEffect(() => {
     const socket = io({
@@ -35,52 +35,52 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const userid = localStorage.getItem('user_id')
-    console.log(userid)
-    if (userid != null && userid != '') {
+    const userid = localStorage.getItem("user_id");
+    console.log(userid);
+    if (userid != null && userid != "") {
       setLoginStage(true);
     }
-  })
-
+  });
 
   useEffect(() => {
     // Regular expression to capture time, type, and message
-    setEventList([])
+    setEventList([]);
     const regex = /^\[(\d{2}:\d{2}:\d{2})\]\[(INFO|ERROR|SCHEDULE)\]: (.*?)(?:\r|\n)?$/;
-
 
     // Split logs by new lines to process each log entry
     const logEntries = logs.split("\n");
-    console.log(logEntries)
-    const parsedEvents = logEntries.map((logEntry) => {
-      const match = logEntry.match(regex);
+    console.log(logEntries);
+    const parsedEvents = logEntries
+      .map((logEntry) => {
+        const match = logEntry.match(regex);
 
-      if (match) {
-        let [_, time, type, message] = match;
+        if (match) {
+          let [_, time, type, message] = match;
 
-        // Adjust type if the message contains specific patterns
-        if (message.includes("[Task scheduling]")) {
-          type = "SCHEDULE"; // Change type to SCHEDULE if applicable
+          // Adjust type if the message contains specific patterns
+          if (message.includes("[Task scheduling]")) {
+            type = "SCHEDULE"; // Change type to SCHEDULE if applicable
+          }
+          if (message.includes("[Task scheduling]")) {
+            type = "SCHEDULE"; // Change type to SCHEDULE if applicable
+          }
+          // Check for API event specific message pattern
+          if (message.includes("[200]")) {
+            type = "SUCCESS"; // Change type to API for specific messages
+          }
+          if (message.includes("[409]")) {
+            type = "ABORT"; // Change type to API for specific messages
+          }
+
+          // Clean up the message by removing ANSI escape codes
+          const cleanedMessage = message.replace(/\u001b\[[0-9;]*m/g, "");
+
+          return { time, type, message: cleanedMessage.trim() }; // Remove leading/trailing whitespace
         }
-        if (message.includes("[Task scheduling]")) {
-          type = "SCHEDULE"; // Change type to SCHEDULE if applicable
-        }
-        // Check for API event specific message pattern
-        if (message.includes("[200]")) {
-          type = "SUCCESS"; // Change type to API for specific messages
-        }
-        if (message.includes("[409]")) {
-          type = "ABORT"; // Change type to API for specific messages
-        }
 
-        // Clean up the message by removing ANSI escape codes
-        const cleanedMessage = message.replace(/\u001b\[[0-9;]*m/g, "");
-
-        return { time, type, message: cleanedMessage.trim() }; // Remove leading/trailing whitespace
-      }
-
-      return null; // Return null for non-matching entries
-    }).filter(Boolean); // Remove null entries
+        return null; // Return null for non-matching entries
+      })
+      .filter(Boolean); // Remove null entries
 
     console.log(parsedEvents);
     // Update event list state
@@ -103,8 +103,6 @@ export default function Home() {
       setApiResponse("Error making API call.");
     }
   };
-
-
 
   return (
     <>
@@ -138,5 +136,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </>);
+    </>
+  );
 }

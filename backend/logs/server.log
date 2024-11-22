@@ -6048,3 +6048,538 @@
 [20:14:46][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 91.6s (1018 modules)
 [20:14:46][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 91.6s (1018 modules)
 [20:14:46][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 91.6s (1018 modules)
+[11:30:17][INFO]: [Task scheduling] _ Schedule set for 180s
+[11:30:17][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[11:30:17][INFO]: [Task scheduling] _ Schedule set for 180s
+[11:30:17][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[11:30:18][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[11:30:28][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 10.3s (2061 modules)
+[11:30:36][INFO]: Client connected
+[11:30:37][INFO]: User joined flight: flight_id_12345
+[11:30:38][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[11:30:44][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 6.8s (2051 modules)
+[11:31:40][INFO]:  [32m[1m✓[22m[39m Compiled in 14.1s (1881 modules)
+[11:32:06][INFO]: Client disconnected
+[11:32:17][INFO]: Client disconnected
+[11:33:02][INFO]: Client connected
+[11:33:07][INFO]: Socket Seat 1_01_A on flight flight_id_12345 has been reset to free after timeout.
+[11:33:07][INFO]: Seat 1_01_A on flight flight_id_12345 has been reset to free due to timeout.
+[11:33:07][INFO]: Canceled reset for seat 1_01_A on flight flight_id_12345.
+[11:33:17][INFO]: Socket Seat 1_02_A on flight flight_id_12345 has been reset to free after timeout.
+[11:33:17][INFO]: Seat 1_02_A on flight flight_id_12345 has been reset to free due to timeout.
+[11:33:17][INFO]: Canceled reset for seat 1_02_A on flight flight_id_12345.
+[11:34:29][INFO]:  [32m[1m✓[22m[39m Compiled in 13.4s (1878 modules)
+[11:34:51][INFO]:  [32m[1m✓[22m[39m Compiled in 18.3s (1878 modules)
+[11:34:57][INFO]:  [32m[1m✓[22m[39m Compiled in 2ms (850 modules)
+[11:35:28][INFO]:  [32m[1m✓[22m[39m Compiled in 27.7s (1878 modules)
+[11:35:30][INFO]: Client disconnected
+[11:35:34][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[11:35:37][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 3.9s (1881 modules)
+[11:35:50][INFO]: Client connected
+[11:35:55][INFO]: User joined flight: flight_id_12345
+[11:36:18][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[11:36:23][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 5.9s (872 modules)
+[11:44:19][INFO]:  [32m[1m✓[22m[39m Compiled in 38.5s (1878 modules)
+[11:44:30][INFO]: Client disconnected
+[11:44:40][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[11:44:42][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 3.3s (1868 modules)
+[11:45:24][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[11:45:26][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1915ms (872 modules)
+[11:47:10][INFO]:  [37m[1m○[22m[39m Compiling /api/user/info/[userid] ...
+[11:47:13][INFO]:  [32m[1m✓[22m[39m Compiled /api/user/info/[userid] in 4.2s (871 modules)
+[11:47:21][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[11:47:21][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1348ms (873 modules)
+[12:12:04][INFO]: Client connected
+[12:12:06][INFO]: User joined flight: flight_id_12345
+[12:14:03][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[12:14:07][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 5.1s (875 modules)
+[12:14:08][INFO]: [Task scheduling] _ Schedule set for 180s
+[12:14:08][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[12:14:12][INFO]: [Task scheduling] _ Schedule set for 180s
+[12:14:12][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[12:14:39][INFO]: Client connected
+[12:14:39][INFO]: Client connected
+[12:14:39][INFO]: User joined flight: flight_id_12345
+[12:14:39][INFO]: User joined flight: flight_id_12345
+[12:14:47][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[12:14:47][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[12:14:47][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 1145ms (877 modules)
+[12:14:47][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 1145ms (877 modules)
+[12:16:13][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:16:13][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:16:23][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 10.3s (871 modules)
+[12:16:23][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 10.3s (871 modules)
+[12:17:02][INFO]: Seat 1_01_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[12:17:02][INFO]: Seat 1_01_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[12:17:02][INFO]: Canceled reset for seat 1_01_A on flight flight_id_12345.
+[12:17:02][INFO]: Canceled reset for seat 1_01_A on flight flight_id_12345.
+[12:17:12][INFO]: Seat 1_02_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[12:17:12][INFO]: Seat 1_02_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[12:17:12][INFO]: Canceled reset for seat 1_02_A on flight flight_id_12345.
+[12:17:12][INFO]: Canceled reset for seat 1_02_A on flight flight_id_12345.
+[12:18:29][INFO]:  [32m[1m✓[22m[39m Compiled in 14.3s (1878 modules)
+[12:18:29][INFO]:  [32m[1m✓[22m[39m Compiled in 14.3s (1878 modules)
+[12:18:36][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:18:37][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:18:56][INFO]: Client disconnected
+[12:18:56][INFO]: Client disconnected
+[12:18:56][INFO]: Client disconnected
+[12:18:56][INFO]: Client disconnected
+[12:19:04][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 28.8s (1868 modules)
+[12:19:04][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 28.8s (1868 modules)
+[12:21:34][INFO]:  [32m[1m✓[22m[39m Compiled in 10.7s (1878 modules)
+[12:21:34][INFO]:  [32m[1m✓[22m[39m Compiled in 10.7s (1878 modules)
+[12:21:51][INFO]:  [32m[1m✓[22m[39m Compiled in 9.5s (1878 modules)
+[12:21:51][INFO]:  [32m[1m✓[22m[39m Compiled in 9.5s (1878 modules)
+[12:27:32][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:27:32][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:27:45][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 16.6s (1881 modules)
+[12:27:45][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 16.6s (1881 modules)
+[12:28:55][INFO]: Client connected
+[12:28:55][INFO]: Client connected
+[12:29:17][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:29:17][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:29:23][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 7.4s (871 modules)
+[12:29:23][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 7.4s (871 modules)
+[12:29:31][INFO]: User joined flight: flight_id_12345
+[12:29:31][INFO]: User joined flight: flight_id_12345
+[12:36:27][INFO]:  [32m[1m✓[22m[39m Compiled in 6.7s (1878 modules)
+[12:36:27][INFO]:  [32m[1m✓[22m[39m Compiled in 6.7s (1878 modules)
+[12:36:42][INFO]: Client disconnected
+[12:36:42][INFO]: Client disconnected
+[12:36:46][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:36:46][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:36:54][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8.6s (1881 modules)
+[12:36:54][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8.6s (1881 modules)
+[12:37:12][INFO]: Client connected
+[12:37:12][INFO]: Client connected
+[12:40:02][INFO]:  [32m[1m✓[22m[39m Compiled in 11.2s (1028 modules)
+[12:40:02][INFO]:  [32m[1m✓[22m[39m Compiled in 11.2s (1028 modules)
+[12:40:17][INFO]: Client disconnected
+[12:40:17][INFO]: Client disconnected
+[12:40:21][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:40:21][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:40:24][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4.3s (1881 modules)
+[12:40:24][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4.3s (1881 modules)
+[12:40:44][INFO]: Client connected
+[12:40:44][INFO]: Client connected
+[12:40:45][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:40:45][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:40:46][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1451ms (872 modules)
+[12:40:46][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1451ms (872 modules)
+[12:40:49][INFO]: User joined flight: flight_id_12345
+[12:40:49][INFO]: User joined flight: flight_id_12345
+[12:41:53][INFO]:  [32m[1m✓[22m[39m Compiled in 5.5s (1028 modules)
+[12:41:53][INFO]:  [32m[1m✓[22m[39m Compiled in 5.5s (1028 modules)
+[12:42:30][INFO]:  [32m[1m✓[22m[39m Compiled in 2.7s (1028 modules)
+[12:42:30][INFO]:  [32m[1m✓[22m[39m Compiled in 2.7s (1028 modules)
+[12:42:49][INFO]:  [32m[1m✓[22m[39m Compiled in 3.6s (1028 modules)
+[12:42:49][INFO]:  [32m[1m✓[22m[39m Compiled in 3.6s (1028 modules)
+[12:43:06][INFO]:  [32m[1m✓[22m[39m Compiled in 2.8s (1028 modules)
+[12:43:06][INFO]:  [32m[1m✓[22m[39m Compiled in 2.8s (1028 modules)
+[12:44:27][INFO]:  [32m[1m✓[22m[39m Compiled in 4s (1028 modules)
+[12:44:27][INFO]:  [32m[1m✓[22m[39m Compiled in 4s (1028 modules)
+[12:44:58][INFO]:  [32m[1m✓[22m[39m Compiled in 2s (1028 modules)
+[12:44:58][INFO]:  [32m[1m✓[22m[39m Compiled in 2s (1028 modules)
+[12:48:31][INFO]:  [32m[1m✓[22m[39m Compiled in 3.1s (1028 modules)
+[12:48:31][INFO]:  [32m[1m✓[22m[39m Compiled in 3.1s (1028 modules)
+[12:49:49][INFO]:  [32m[1m✓[22m[39m Compiled in 3.1s (1028 modules)
+[12:49:49][INFO]:  [32m[1m✓[22m[39m Compiled in 3.1s (1028 modules)
+[12:51:47][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:51:47][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:51:59][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 13.5s (1868 modules)
+[12:51:59][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 13.5s (1868 modules)
+[12:52:10][INFO]: Client disconnected
+[12:52:10][INFO]: Client disconnected
+[12:52:32][INFO]: Client connected
+[12:52:32][INFO]: Client connected
+[12:52:33][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:52:33][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[12:52:35][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1682ms (872 modules)
+[12:52:35][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1682ms (872 modules)
+[12:52:37][INFO]: User joined flight: flight_id_12345
+[12:52:37][INFO]: User joined flight: flight_id_12345
+[12:53:51][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[12:53:51][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[12:54:05][INFO]:  [32m[1m✓[22m[39m Compiled /home in 15.2s (1008 modules)
+[12:54:05][INFO]:  [32m[1m✓[22m[39m Compiled /home in 15.2s (1008 modules)
+[12:57:22][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[12:57:23][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[12:57:32][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 11.4s (1029 modules)
+[12:57:32][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 11.4s (1029 modules)
+[12:59:07][INFO]: Client disconnected
+[12:59:07][INFO]: Client disconnected
+[12:59:45][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[12:59:45][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[13:00:00][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 16s (2031 modules)
+[13:00:00][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 16s (2031 modules)
+[13:02:48][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:02:48][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:02:57][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 9.7s (1021 modules)
+[13:02:58][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 9.7s (1021 modules)
+[13:04:23][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[13:04:23][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[13:04:26][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 5.1s (2018 modules)
+[13:04:26][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 5.1s (2018 modules)
+[13:05:39][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:05:39][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:05:41][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 2.7s (1021 modules)
+[13:05:41][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 2.7s (1021 modules)
+[13:10:28][INFO]:  [32m[1m✓[22m[39m Compiled in 50.9s (2028 modules)
+[13:10:28][INFO]:  [32m[1m✓[22m[39m Compiled in 50.9s (2028 modules)
+[13:11:33][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[13:11:33][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[13:11:42][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 11.5s (2031 modules)
+[13:11:42][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 11.5s (2031 modules)
+[13:21:01][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:21:01][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[13:21:06][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 5.6s (1021 modules)
+[13:21:06][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 5.6s (1021 modules)
+[15:10:26][INFO]:  [37m[1m○[22m[39m Compiling /booking/summary/[flight_id] ...
+[15:10:26][INFO]:  [37m[1m○[22m[39m Compiling /booking/summary/[flight_id] ...
+[15:10:34][INFO]:  [32m[1m✓[22m[39m Compiled /booking/summary/[flight_id] in 9.5s (1008 modules)
+[15:10:34][INFO]:  [32m[1m✓[22m[39m Compiled /booking/summary/[flight_id] in 9.5s (1008 modules)
+[15:10:54][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:10:54][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:10:55][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 1506ms (1029 modules)
+[15:10:55][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 1506ms (1029 modules)
+[15:11:09][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:11:09][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:11:11][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 2.3s (1031 modules)
+[15:11:11][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 2.3s (1031 modules)
+[15:32:08][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:32:08][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:32:16][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 14.9s (2048 modules)
+[15:32:16][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 14.9s (2048 modules)
+[15:32:31][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:32:31][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:32:35][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4.1s (2038 modules)
+[15:32:35][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4.1s (2038 modules)
+[15:32:50][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:32:50][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:32:51][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1853ms (1023 modules)
+[15:32:51][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1853ms (1023 modules)
+[15:33:17][INFO]:  [37m[1m○[22m[39m Compiling /booking/traveler/[flight_id] ...
+[15:33:17][INFO]:  [37m[1m○[22m[39m Compiling /booking/traveler/[flight_id] ...
+[15:33:20][INFO]:  [32m[1m✓[22m[39m Compiled /booking/traveler/[flight_id] in 4.3s (1032 modules)
+[15:33:20][INFO]:  [32m[1m✓[22m[39m Compiled /booking/traveler/[flight_id] in 4.3s (1032 modules)
+[15:34:36][INFO]: Client connected
+[15:34:36][INFO]: Client connected
+[15:34:36][INFO]: User joined flight: flight_id_56789
+[15:34:36][INFO]: User joined flight: flight_id_56789
+[15:34:44][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[15:34:44][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[15:34:49][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 5.1s (1027 modules)
+[15:34:49][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 5.1s (1027 modules)
+[15:34:49][INFO]: [Task scheduling] _ Schedule set for 180s
+[15:34:49][INFO]: [200] - [qnrXSeNskxe8M9VkWjUOB4tJUq83] Seat registered successfully
+[15:34:50][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[15:34:50][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[15:34:50][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[15:34:55][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 5.7s (1035 modules)
+[15:34:55][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 5.7s (1035 modules)
+[15:34:55][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 5.7s (1035 modules)
+[15:35:03][INFO]: Client connected
+[15:35:03][INFO]: Client connected
+[15:35:03][INFO]: Client connected
+[15:35:03][INFO]: User joined flight: flight_id_56789
+[15:35:03][INFO]: User joined flight: flight_id_56789
+[15:35:03][INFO]: User joined flight: flight_id_56789
+[15:35:34][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[15:35:34][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[15:35:34][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[15:35:36][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 2s (879 modules)
+[15:35:36][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 2s (879 modules)
+[15:35:36][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 2s (879 modules)
+[15:35:38][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[15:35:38][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[15:35:38][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[15:35:44][INFO]:  [32m[1m✓[22m[39m Compiled /home in 5.9s (1037 modules)
+[15:35:44][INFO]:  [32m[1m✓[22m[39m Compiled /home in 5.9s (1037 modules)
+[15:35:44][INFO]:  [32m[1m✓[22m[39m Compiled /home in 5.9s (1037 modules)
+[15:35:58][INFO]:  [37m[1m○[22m[39m Compiling /api/user/info/[userid] ...
+[15:35:58][INFO]:  [37m[1m○[22m[39m Compiling /api/user/info/[userid] ...
+[15:35:58][INFO]:  [37m[1m○[22m[39m Compiling /api/user/info/[userid] ...
+[15:35:58][INFO]:  [32m[1m✓[22m[39m Compiled /api/user/info/[userid] in 1001ms (1031 modules)
+[15:35:58][INFO]:  [32m[1m✓[22m[39m Compiled /api/user/info/[userid] in 1001ms (1031 modules)
+[15:35:58][INFO]:  [32m[1m✓[22m[39m Compiled /api/user/info/[userid] in 1001ms (1031 modules)
+[15:37:44][INFO]: Seat 1_01_A on flight flight_id_56789 has been re-registered. Reset canceled.
+[15:37:44][INFO]: Seat 1_01_A on flight flight_id_56789 has been re-registered. Reset canceled.
+[15:37:44][INFO]: Seat 1_01_A on flight flight_id_56789 has been re-registered. Reset canceled.
+[15:37:44][INFO]: Canceled reset for seat 1_01_A on flight flight_id_56789.
+[15:37:44][INFO]: Canceled reset for seat 1_01_A on flight flight_id_56789.
+[15:37:44][INFO]: Canceled reset for seat 1_01_A on flight flight_id_56789.
+[15:39:16][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:39:16][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:39:16][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[15:39:17][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 1810ms (1029 modules)
+[15:39:17][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 1810ms (1029 modules)
+[15:39:17][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 1810ms (1029 modules)
+[15:39:59][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:39:59][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:39:59][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[15:39:59][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1213ms (1031 modules)
+[15:39:59][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1213ms (1031 modules)
+[15:39:59][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1213ms (1031 modules)
+[15:40:28][INFO]: Client connected
+[15:40:28][INFO]: Client connected
+[15:40:28][INFO]: Client connected
+[15:40:28][INFO]: User joined flight: flight_id_56789
+[15:40:28][INFO]: User joined flight: flight_id_56789
+[15:40:28][INFO]: User joined flight: flight_id_56789
+[15:40:42][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:40:42][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:40:42][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:40:49][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8.1s (2052 modules)
+[15:40:49][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8.1s (2052 modules)
+[15:40:49][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8.1s (2052 modules)
+[15:59:24][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:59:24][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:59:24][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[15:59:53][INFO]: Client disconnected
+[15:59:53][INFO]: Client disconnected
+[15:59:53][INFO]: Client disconnected
+[15:59:58][INFO]: Client connected
+[15:59:58][INFO]: Client connected
+[15:59:58][INFO]: Client connected
+[16:00:16][INFO]:  [32m[1m✓[22m[39m Compiled /_error in 4.9s (1031 modules)
+[16:00:16][INFO]:  [32m[1m✓[22m[39m Compiled /_error in 4.9s (1031 modules)
+[16:00:16][INFO]:  [32m[1m✓[22m[39m Compiled /_error in 4.9s (1031 modules)
+[16:00:22][INFO]: Client disconnected
+[16:00:22][INFO]: Client disconnected
+[16:00:22][INFO]: Client disconnected
+[16:00:23][INFO]: Client disconnected
+[16:00:23][INFO]: Client disconnected
+[16:00:23][INFO]: Client disconnected
+[16:01:08][INFO]:  [32m[1m✓[22m[39m Compiled in 4.7s (1030 modules)
+[16:01:08][INFO]:  [32m[1m✓[22m[39m Compiled in 4.7s (1030 modules)
+[16:01:08][INFO]:  [32m[1m✓[22m[39m Compiled in 4.7s (1030 modules)
+[16:02:29][INFO]:  [32m[1m✓[22m[39m Compiled in 8s (1028 modules)
+[16:02:29][INFO]:  [32m[1m✓[22m[39m Compiled in 8s (1028 modules)
+[16:02:29][INFO]:  [32m[1m✓[22m[39m Compiled in 8s (1028 modules)
+[16:02:29][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:02:30][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:02:30][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[19:45:18][INFO]: [Task scheduling] _ Schedule set for 180s
+[19:45:18][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[19:45:18][INFO]: [Task scheduling] _ Schedule set for 180s
+[19:45:18][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[19:45:19][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[19:45:35][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 16.3s (1949 modules)
+[19:45:49][INFO]: Client connected
+[19:45:49][INFO]: User joined flight: flight_id_12345
+[19:46:02][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[19:46:04][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 2.7s (879 modules)
+[19:46:08][INFO]:  [32m[1m✓[22m[39m Compiled (881 modules)
+[19:47:19][INFO]: Client disconnected
+[19:47:32][INFO]: Client connected
+[19:48:05][INFO]: Socket Seat 1_01_A on flight flight_id_12345 has been reset to free after timeout.
+[19:48:06][INFO]: Seat 1_01_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[19:48:06][INFO]: Canceled reset for seat 1_01_A on flight flight_id_12345.
+[19:48:18][INFO]: Socket Seat 1_02_A on flight flight_id_12345 has been reset to free after timeout.
+[19:48:18][INFO]: Seat 1_02_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[19:48:18][INFO]: Canceled reset for seat 1_02_A on flight flight_id_12345.
+[19:59:49][INFO]:  [32m[1m✓[22m[39m Compiled in 12.5s (1761 modules)
+[20:00:04][INFO]: Client disconnected
+[20:00:04][INFO]: Client disconnected
+[20:00:04][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:00:12][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 7.8s (1764 modules)
+[20:01:32][INFO]: Client connected
+[20:01:41][INFO]: User joined flight: flight_id_12345
+[20:02:33][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[20:02:46][INFO]:  [32m[1m✓[22m[39m Compiled /home in 14.1s (1008 modules)
+[20:05:38][INFO]:  [32m[1m✓[22m[39m Compiled in 18.2s (1911 modules)
+[20:06:02][INFO]: Client disconnected
+[20:06:02][INFO]:  [32m[1m✓[22m[39m Compiled in 8.6s (1911 modules)
+[20:06:36][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:09:17][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 162.2s (1914 modules)
+[20:16:46][INFO]:  [32m[1m✓[22m[39m Compiled in 8s (911 modules)
+[20:17:07][INFO]:  [32m[1m✓[22m[39m Compiled in 19.3s (911 modules)
+[20:17:45][INFO]: Client connected
+[20:17:46][INFO]: Client disconnected
+[20:17:50][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:18:03][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 14.9s (1914 modules)
+[20:21:07][INFO]:  [32m[1m✓[22m[39m Compiled in 5.9s (913 modules)
+[20:23:34][INFO]:  [32m[1m✓[22m[39m Compiled in 4.8s (911 modules)
+[20:23:37][INFO]:  [32m[1m✓[22m[39m Compiled in 2.8s (911 modules)
+[20:23:56][INFO]:  [32m[1m✓[22m[39m Compiled in 1987ms (911 modules)
+[20:24:33][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:24:37][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4.4s (1901 modules)
+[20:24:59][INFO]:  [32m[1m✓[22m[39m Compiled in 4.9s (913 modules)
+[20:26:32][INFO]:  [32m[1m✓[22m[39m Compiled in 11.4s (911 modules)
+[20:26:35][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:26:42][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 8s (1901 modules)
+[20:32:58][INFO]:  [32m[1m✓[22m[39m Compiled in 19.7s (1911 modules)
+[20:33:24][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:33:36][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 14s (1901 modules)
+[20:36:36][INFO]:  [32m[1m✓[22m[39m Compiled in 5.5s (911 modules)
+[20:36:41][INFO]:  [32m[1m✓[22m[39m Compiled in 2.6s (911 modules)
+[20:36:51][INFO]:  [32m[1m✓[22m[39m Compiled in 6.6s (911 modules)
+[20:38:06][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:38:10][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 6.2s (1914 modules)
+[20:41:07][INFO]:  [32m[1m✓[22m[39m Compiled in 3.9s (911 modules)
+[20:41:42][INFO]:  [32m[1m✓[22m[39m Compiled in 2.6s (911 modules)
+[20:42:03][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:42:06][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 3.4s (1901 modules)
+[20:43:30][INFO]:  [32m[1m✓[22m[39m Compiled in 3.2s (911 modules)
+[20:43:48][INFO]:  [32m[1m✓[22m[39m Compiled in 2.2s (911 modules)
+[20:45:25][INFO]:  [32m[1m✓[22m[39m Compiled in 4.2s (911 modules)
+[20:45:42][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:45:45][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 4s (1901 modules)
+[20:45:58][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/get ...
+[20:46:03][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/get in 5.5s (1022 modules)
+[20:46:38][INFO]:  [32m[1m✓[22m[39m Compiled in 4.6s (1935 modules)
+[20:46:49][INFO]:  [32m[1m✓[22m[39m Compiled in 6.7s (1935 modules)
+[20:50:03][INFO]:  [32m[1m✓[22m[39m Compiled in 7.7s (1932 modules)
+[20:50:12][INFO]:  [32m[1m✓[22m[39m Compiled in 4.6s (1932 modules)
+[20:50:48][INFO]:  [32m[1m✓[22m[39m Compiled in 3.4s (1932 modules)
+[20:51:30][INFO]:  [32m[1m✓[22m[39m Compiled in 5s (1932 modules)
+[20:51:33][INFO]:  [32m[1m✓[22m[39m Compiled in 3ms (1021 modules)
+[20:51:50][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[20:52:08][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 19.1s (1922 modules)
+[20:52:24][INFO]:  [32m[1m✓[22m[39m Compiled in 4.8s (1935 modules)
+[16:23:23][INFO]: [Task scheduling] _ Schedule set for 180s
+[16:23:23][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[16:23:24][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:23:35][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 11.4s (2074 modules)
+[16:23:41][INFO]: Client disconnected
+[16:23:55][INFO]: Client connected
+[16:24:20][INFO]: Client connected
+[16:24:21][INFO]: User joined flight: flight_id_12345
+[16:24:52][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:24:55][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 4.3s (880 modules)
+[16:24:57][INFO]:  [32m[1m✓[22m[39m Compiled (884 modules)
+[16:26:14][INFO]: Socket Seat 1_01_A on flight flight_id_12345 has been reset to free after timeout.
+[16:26:14][INFO]: Seat 1_01_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:26:14][INFO]: Canceled reset for seat 1_01_A on flight flight_id_12345.
+[16:26:21][INFO]: Client disconnected
+[16:26:31][INFO]: Client disconnected
+[16:26:54][INFO]: Client connected
+[16:26:58][INFO]: Client connected
+[16:27:05][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:27:25][INFO]: Client disconnected
+[16:27:28][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 28.4s (1895 modules)
+[16:27:34][INFO]: Client connected
+[16:27:43][INFO]: Client disconnected
+[16:28:50][INFO]: Client connected
+[16:29:33][INFO]: Client disconnected
+[16:33:00][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:33:06][INFO]:  [32m[1m✓[22m[39m Compiled /home in 6.7s (1022 modules)
+[16:36:15][INFO]:  [37m[1m○[22m[39m Compiling /booking/flight ...
+[16:36:17][INFO]:  [32m[1m✓[22m[39m Compiled /booking/flight in 16.9s (2043 modules)
+[16:36:24][INFO]:  [32m[1m✓[22m[39m Compiled in 6.9s (2038 modules)
+[16:36:35][INFO]: Client disconnected
+[16:36:36][INFO]: Client disconnected
+[16:36:39][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:36:54][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 16s (2041 modules)
+[16:39:17][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[16:39:27][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 11.1s (1040 modules)
+[16:40:12][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[16:40:16][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 5.1s (1042 modules)
+[16:41:11][INFO]: Client connected
+[16:41:12][INFO]: User joined flight: flight_id_12345
+[16:41:23][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[16:41:36][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 14.1s (1037 modules)
+[16:41:36][INFO]: Client connected
+[16:41:36][INFO]: Client connected
+[16:41:37][INFO]: [Task scheduling] _ Schedule set for 180s
+[16:41:37][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[16:41:40][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:41:40][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:41:43][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 4s (1045 modules)
+[16:41:43][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 4s (1045 modules)
+[16:42:02][INFO]: Client connected
+[16:42:02][INFO]: Client connected
+[16:42:02][INFO]: User joined flight: flight_id_12345
+[16:42:02][INFO]: User joined flight: flight_id_12345
+[16:42:12][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:42:12][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:42:16][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 4.8s (889 modules)
+[16:42:16][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 4.8s (889 modules)
+[16:42:19][INFO]:  [32m[1m✓[22m[39m Compiled (891 modules)
+[16:42:19][INFO]:  [32m[1m✓[22m[39m Compiled (891 modules)
+[16:42:24][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:42:24][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:42:27][INFO]:  [32m[1m✓[22m[39m Compiled /home in 3.5s (1048 modules)
+[16:42:27][INFO]:  [32m[1m✓[22m[39m Compiled /home in 3.5s (1048 modules)
+[16:42:51][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[16:42:51][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/total ...
+[16:42:53][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 2.7s (1045 modules)
+[16:42:53][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/total in 2.7s (1045 modules)
+[16:42:56][INFO]: Client disconnected
+[16:42:56][INFO]: Client disconnected
+[16:42:59][INFO]: Client connected
+[16:42:59][INFO]: Client connected
+[16:43:00][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[16:43:00][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[16:43:01][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1770ms (1047 modules)
+[16:43:01][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 1770ms (1047 modules)
+[16:44:21][INFO]: Seat 1_02_B on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:44:21][INFO]: Seat 1_02_B on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:44:21][INFO]: Canceled reset for seat 1_02_B on flight flight_id_12345.
+[16:44:21][INFO]: Canceled reset for seat 1_02_B on flight flight_id_12345.
+[16:46:48][INFO]: Client disconnected
+[16:46:48][INFO]: Client disconnected
+[16:46:48][INFO]: Client disconnected
+[16:46:48][INFO]: Client disconnected
+[16:46:51][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:46:51][INFO]:  [37m[1m○[22m[39m Compiling /_not-found ...
+[16:47:10][INFO]: Client disconnected
+[16:47:10][INFO]: Client disconnected
+[16:47:15][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 24.8s (2046 modules)
+[16:47:15][INFO]:  [32m[1m✓[22m[39m Compiled /_not-found in 24.8s (2046 modules)
+[16:47:27][INFO]: Client connected
+[16:47:27][INFO]: Client connected
+[16:47:28][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[16:47:28][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/info/[flightid] ...
+[16:47:33][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 5.9s (1033 modules)
+[16:47:33][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/info/[flightid] in 5.9s (1033 modules)
+[16:47:36][INFO]: User joined flight: flight_id_12345
+[16:47:36][INFO]: User joined flight: flight_id_12345
+[16:48:05][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[16:48:05][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/register/[seatid] ...
+[16:48:07][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 3.3s (1038 modules)
+[16:48:08][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/register/[seatid] in 3.3s (1038 modules)
+[16:48:08][INFO]: [Task scheduling] _ Schedule set for 180s
+[16:48:08][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[16:48:08][INFO]: [Task scheduling] _ Schedule set for 180s
+[16:48:08][INFO]: [200] - [T2CAK8QtEGev4nFS7G4nOED0WqD2] Seat registered successfully
+[16:48:09][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:48:09][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:48:09][INFO]:  [37m[1m○[22m[39m Compiling /booking/payment/[flight_id] ...
+[16:48:12][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 3.1s (1046 modules)
+[16:48:12][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 3.1s (1046 modules)
+[16:48:12][INFO]:  [32m[1m✓[22m[39m Compiled /booking/payment/[flight_id] in 3.1s (1046 modules)
+[16:48:47][INFO]: Client connected
+[16:48:47][INFO]: Client connected
+[16:48:47][INFO]: Client connected
+[16:48:48][INFO]: User joined flight: flight_id_12345
+[16:48:48][INFO]: User joined flight: flight_id_12345
+[16:48:48][INFO]: User joined flight: flight_id_12345
+[16:49:01][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:49:01][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:49:01][INFO]:  [37m[1m○[22m[39m Compiling /api/flight/[flightid]/seat/purchase/[seatid] ...
+[16:49:05][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 5.2s (887 modules)
+[16:49:05][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 5.2s (887 modules)
+[16:49:05][INFO]:  [32m[1m✓[22m[39m Compiled /api/flight/[flightid]/seat/purchase/[seatid] in 5.2s (887 modules)
+[16:49:07][INFO]:  [32m[1m✓[22m[39m Compiled (889 modules)
+[16:49:07][INFO]:  [32m[1m✓[22m[39m Compiled (889 modules)
+[16:49:07][INFO]:  [32m[1m✓[22m[39m Compiled (889 modules)
+[16:49:11][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:49:11][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:49:11][INFO]:  [37m[1m○[22m[39m Compiling /home ...
+[16:49:15][INFO]:  [32m[1m✓[22m[39m Compiled /home in 4.2s (1043 modules)
+[16:49:15][INFO]:  [32m[1m✓[22m[39m Compiled /home in 4.2s (1043 modules)
+[16:49:15][INFO]:  [32m[1m✓[22m[39m Compiled /home in 4.2s (1043 modules)
+[16:50:17][INFO]:  [32m[1m✓[22m[39m Compiled in 8.5s (1029 modules)
+[16:50:17][INFO]:  [32m[1m✓[22m[39m Compiled in 8.5s (1029 modules)
+[16:50:18][INFO]:  [32m[1m✓[22m[39m Compiled in 8.5s (1029 modules)
+[16:51:04][INFO]: Seat 1_03_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:51:04][INFO]: Seat 1_03_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:51:04][INFO]: Seat 1_03_A on flight flight_id_12345 has been re-registered. Reset canceled.
+[16:51:04][INFO]: Canceled reset for seat 1_03_A on flight flight_id_12345.
+[16:51:04][INFO]: Canceled reset for seat 1_03_A on flight flight_id_12345.
+[16:51:04][INFO]: Canceled reset for seat 1_03_A on flight flight_id_12345.
+[16:51:04][INFO]:  [32m[1m✓[22m[39m Compiled in 16.1s (2030 modules)
+[16:51:04][INFO]:  [32m[1m✓[22m[39m Compiled in 16.1s (2030 modules)
+[16:51:04][INFO]:  [32m[1m✓[22m[39m Compiled in 16.1s (2030 modules)

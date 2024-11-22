@@ -48,6 +48,7 @@ const Login = ({ setOpenLogin, setOpenSignUp }) => {
       }
       console.log(result);
     } catch (error) {
+      toast.error("Đã có lỗi xảy ra");
       console.error("Error logging in", error);
     }
   };
